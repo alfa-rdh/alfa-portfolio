@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alfa's Portfolio - Digital Multimedia</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2EEE6;
+    --cream-dark:#E6E0D4;
+    --ink:#171513;
+    --ink-soft:#3a3633;
+    --red:#D8431D;
+    --line: rgba(23,21,19,0.16);
+    --line-dark: rgba(242,238,230,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{ font-family:'Playfair Display', serif; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.08em; }
+
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:1440px;
+    margin:0 auto;
+    padding:0 clamp(20px, 5vw, 60px);
+  }
+
+  /* === HEADER === */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--cream);
+    border-bottom:2px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px clamp(20px, 5vw, 60px);
+    max-width:1440px; margin:0 auto;
+    gap:16px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-size:14px; letter-spacing:0.12em; font-weight:500;
+    flex-shrink:0;
+  }
+  .logo .dot{
+    width:11px; height:11px; background:darkblue; flex-shrink:0;
+  }
+  .nav-links{ display:flex; gap:clamp(20px, 3vw, 44px); }
+  .nav-links a{
+    font-size:14px; letter-spacing:0.12em; font-weight:500;
+    color:var(--ink-soft);
+    transition:color .2s;
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-cv-mobile{ display:none; }
+
+  /* hamburger menu toggle (hidden on desktop) */
+  .nav-toggle{
+    display:none;
+    width:38px; height:38px;
+    border:1px solid var(--ink);
+    background:transparent;
+    cursor:pointer;
+    align-items:center; justify-content:center;
+    flex-shrink:0;
+    position:relative;
+    z-index:60;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:''; display:block;
+    width:18px; height:2px; background:var(--ink);
+    position:relative; transition: all .2s ease;
+  }
+  .nav-toggle span::before{ position:absolute; top:-6px; }
+  .nav-toggle span::after{ position:absolute; top:6px; }
+  .nav-toggle.open span{ background:transparent; }
+  .nav-toggle.open span::before{ top:0; transform:rotate(45deg); }
+  .nav-toggle.open span::after{ top:0; transform:rotate(-45deg); }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px; letter-spacing:0.1em; font-weight:500;
+    padding:15px 26px;
+    cursor:pointer;
+    border:1px solid var(--ink);
+    transition: all .2s ease;
+    white-space:nowrap;
+  }
+  .btn-solid{ background:var(--ink); color:var(--cream); }
+  .btn-solid:hover{ background:#000; }
+  .btn-outline{ background:transparent; color:var(--ink); border-color:var(--ink); }
+  .btn-outline:hover{ background:var(--ink); color:var(--cream); }
+  .btn-outline-light{ border-color:rgba(242,238,230,0.4); color:var(--cream); }
+  .btn-outline-light:hover{ background:var(--cream); color:var(--ink); }
+
+  /* === HERO === */
+  .hero{
+    padding:clamp(50px, 8vw, 90px) clamp(20px, 5vw, 60px) 60px;
+    max-width:1440px; margin:0 auto;
+    display:grid;
+    grid-template-columns: 0.4fr 1fr;
+    gap:clamp(32px, 6vw, 64px);
+    align-items:start;
+  }
+  .eyebrow{
+    font-size:14px; color:darkblue; font-weight:500;
+    padding-bottom:8px; margin-bottom:24px;
+    border-bottom:1px solid var(--line);
+    display:inline-block;
+  }
+  /* .hero h1{
+    font-size:64px; line-height:1.05; font-weight:500;
+    letter-spacing:-0.01em;
+  } */
+  .hero h1 .square{
+    display:inline-block; width:24px; height:24px; background:darkblue;
+    vertical-align:middle; margin-left:10px;
+  }
+  .hero-side{ padding-top:56px; }
+  .hero-rule{ border:none; border-top:1px solid var(--ink); margin-bottom:24px; width:90px; }
+  .bio-text{
+    text-wrap:balance;
+    font-size:16px; line-height:1.65; color:var(--ink-soft);
+    max-width:560px; margin-bottom: 40px;
+  }
+  .hero-buttons{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  /* portrait in hero — sits below the headline */
+  .hero-portrait{
+    margin-top:16px;
+    width:100%;
+    max-width:220px;
+    aspect-ratio: 3/4;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .hero-portrait img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+
+  /* about section with portrait on right */
+  .about-body{
+    display:grid;
+    grid-template-columns: 1fr 0.4fr;
+    column-gap:64px; row-gap:0;
+    margin-top:16px;
+    align-items:start;
+  }
+  .about-text-col{ display:flex; flex-direction:column; gap:24px; /* text-wrap: balance; */}
+  .about-body p{
+    font-size:16px; line-height:1.7; color:rgba(242,238,230,0.78);
+  }
+  .about-portrait{
+    width:200px;
+    aspect-ratio: 3/4;
+    overflow:hidden;
+    border:1px solid rgba(242,238,230,0.18);
+    flex-shrink:0;
+  }
+  .about-portrait img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .meta-strip{
+    padding:clamp(36px, 6vw, 60px) clamp(20px, 5vw, 60px) 50px;
+    max-width:1440px; margin:0 auto;
+  }
+  .meta-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:clamp(20px, 4vw, 40px);
+    padding:34px 0;
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+  }
+  .meta-label{
+    font-size:12px; color:darkblue; font-weight:500;
+    padding-bottom:6px; margin-bottom:10px;
+    border-bottom:1px solid rgba(216,67,29,0.4);
+    display:inline-block;
+  }
+  .meta-value{ font-size:clamp(18px, 2.4vw, 24px); font-weight:500; }
+  .meta-grid .serif{ font-size:clamp(18px, 2.4vw, 24px); }
+  .available{
+    margin-top:24px;
+    font-size:12px; color:darkblue; font-weight:500;
+    display:flex; align-items:center; gap:10px;
+  }
+  .available .dot{ width:7px; height:7px; background:darkblue; border-radius:50%; }
+
+  /* === MARQUEE === */
+  .marquee{
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:34px 0;
+  }
+  .marquee-track{
+    display:inline-flex;
+    align-items:center;
+    animation: scroll 10s linear infinite;
+  }
+  .marquee-track span{
+    font-size:clamp(22px, 4vw, 40px); font-weight:500; padding:0 clamp(18px, 3vw, 36px);
+  }
+  .marquee-track .sep{ color:darkblue; font-size:14px; }
+  @keyframes scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* === WORK SECTION === */
+  .section{ padding:clamp(40px, 7vw, 64px) clamp(20px, 5vw, 56px); max-width:1440px; margin:0 auto; scroll-margin-top:88px; }
+  /* .section-head{
+    display:grid; grid-template-columns: 220px 1fr; gap:40px;
+    margin-bottom:54px;
+  } */
+  .index-num{
+    font-size:clamp(48px, 8vw, 90px); font-weight:600; color:transparent;
+    -webkit-text-stroke: 1.4px var(--ink);
+    line-height:1;
+  }
+  .index-num.light{ -webkit-text-stroke: 1.4px var(--cream); }
+  .section-title{
+    font-size:clamp(28px, 5vw, 48px); line-height:1.18; font-weight:500;
+    max-width:780px;
+  }
+  .section-title em{ font-style:italic; font-weight:500; }
+  .section-desc{
+    margin-top:24px; font-size:16px; line-height:1.6; color:var(--ink-soft); text-wrap: balance;
+    max-width:840px;
+  }
+
+  .filters{ display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap; }
+  .filter-pill{
+    font-size:14px; padding:11px 22px; border-radius:30px;
+    border:1px solid var(--line);
+    background:transparent; cursor:pointer;
+    transition: all .2s ease;
+    font-family:'Inter', sans-serif;
+  }
+  .filter-pill:hover{ border-color:var(--ink); }
+  .filter-pill.active{ background:darkblue; border-color:darkblue; color:#fff; }
+
+  .work-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:20px;
+  }
+  .work-card{
+    cursor:pointer;
+    border:none;
+    background:transparent;
+    font-family:inherit;
+    text-align:left;
+    padding:0;
+  }
+  .work-card-img{
+    aspect-ratio: 16/9;
+    border:1px solid darkblue;
+    overflow:hidden;
+    position:relative;
+    background:#ddd;
+  }
+  .work-card-img img{ width:100%; height:100%; object-fit:cover; transition: transform .5s ease; }
+  .work-card:hover .work-card-img img{ transform:scale(1.04); }
+  .work-card-caption{
+    margin-top:20px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+    display:flex; justify-content:space-between; align-items:flex-end;
+  }
+  .work-card-meta{
+    font-size:12px; color:darkblue; font-weight:500; letter-spacing:0.08em;
+    margin-bottom:8px;
+  }
+  .work-card-title{ font-size:clamp(20px, 3vw, 27px); }
+  .work-card-arrow{ font-size:20px; transition: transform .2s ease; flex-shrink:0; }
+  .work-card:hover .work-card-arrow{ transform: translate(4px,-4px); }
+
+  /* === ACCORDION BUTTON === */
+  .accordion-wrap{
+    margin-top:48px;
+    display:flex; justify-content:center;
+  }
+  .accordion-btn{
+    display:inline-flex; align-items:center; gap:14px;
+    font-size:13px; letter-spacing:0.12em;
+    padding:18px clamp(24px, 6vw, 48px);
+    border:1px solid var(--ink); background:transparent;
+    cursor:pointer; color:var(--ink);
+    font-family:'JetBrains Mono', monospace;
+    transition: all .2s ease;
+    position:relative;
+    max-width:100%;
+  }
+  .accordion-btn:hover{ background:var(--ink); color:var(--cream); }
+  .accordion-icon{
+    font-size:18px;
+    display:inline-block;
+  }
+
+  /* === CONTACT CONFIRM POPUP === */
+  .confirm-overlay{
+    display:none; position:fixed; inset:0; z-index:999;
+    background:rgba(23,21,19,0.55);
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .confirm-overlay.open{ display:flex; }
+  .confirm-box{
+    position:relative; background:var(--cream); color:var(--ink);
+    max-width:420px; width:100%; padding:40px 36px 32px;
+    border:1px solid var(--line); text-align:center;
+  }
+  .confirm-close{
+    position:absolute; top:14px; right:14px;
+    width:32px; height:32px; border:1px solid var(--line);
+    background:transparent; color:var(--ink); font-size:18px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition: background .2s, color .2s;
+  }
+  .confirm-close:hover{ background:var(--ink); color:var(--cream); }
+  .confirm-icon{ font-size:34px; margin-bottom:14px; }
+  .confirm-title{ font-size:24px; margin-bottom:10px; }
+  .confirm-desc{ font-size:15px; line-height:1.6; color:var(--ink-soft); margin-bottom:26px; }
+  .confirm-ok-btn{ width:100%; justify-content:center; }
+
+  /* === MODAL === */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(15,13,11,0.78);
+    z-index:200; display:none;
+    align-items:flex-start; justify-content:center;
+    padding:50px 24px;
+    overflow-y:auto;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:var(--cream);
+    max-width:920px; width:100%;
+    border:1px solid var(--ink);
+    margin-bottom:50px;
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px;
+    width:42px; height:42px;
+    border:1px solid var(--ink);
+    background:var(--ink); color:var(--cream);
+    font-size:20px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    z-index:5;
+  }
+  .modal-close:hover{ background:#000; }
+  .modal-slider{
+    position:relative; width:100%;
+    aspect-ratio: 16/9;
+    max-height:380px;
+    overflow:hidden; background:#111;
+  }
+  .modal-slide{
+    position:absolute; inset:0;
+    opacity:0; transition: opacity .35s ease;
+    z-index:1;
+  }
+  .modal-slide.active{ opacity:1; z-index:2; }
+  .modal-slide img{ width:100%; height:100%; object-fit:contain; background:#111; }
+  .modal-slide video{
+    width:100%; height:100%; object-fit:contain;
+    display:block; background:#000;
+  }
+  .modal-slide iframe{
+    width:100%; height:100%; border:none; display:block;
+    pointer-events:auto;
+  }
+  /* YouTube clickable thumbnail overlay */
+  .yt-thumb{
+    position:relative; width:100%; height:100%;
+    cursor:pointer; display:block; background:#000;
+    text-decoration:none;
+  }
+  .yt-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .yt-thumb .yt-play{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:68px; height:48px; background:#FF0000; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    transition: background .2s, transform .2s;
+  }
+  .yt-thumb:hover .yt-play{ background:#cc0000; transform:translate(-50%,-50%) scale(1.08); }
+  .yt-thumb .yt-play::after{
+    content:''; width:0; height:0;
+    border-style:solid; border-width:10px 0 10px 20px;
+    border-color:transparent transparent transparent #fff;
+    margin-left:4px;
+  }
+  .yt-label{
+    position:absolute; bottom:14px; left:0; right:0; text-align:center;
+    color:rgba(255,255,255,0.85); font-size:13px; font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.06em;
+  }
+  /* play badge on work cards that have a video cover */
+  .play-badge{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:52px; height:52px; border-radius:50%;
+    background:rgba(23,21,19,0.72);
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none; z-index:2;
+  }
+  .play-badge::after{
+    content:''; display:block;
+    width:0; height:0;
+    border-style:solid;
+    border-width:10px 0 10px 18px;
+    border-color:transparent transparent transparent #F2EEE6;
+    margin-left:4px;
+  }
+  .modal-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:42px; height:42px;
+    background:rgba(242,238,230,0.9); color:var(--ink);
+    border:none; cursor:pointer; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    z-index:4;
+  }
+  .modal-nav:hover{ background:var(--cream); }
+  .modal-prev{ left:16px; }
+  .modal-next{ right:16px; }
+  .modal-dots{
+    position:absolute; bottom:16px; left:0; right:0;
+    display:flex; justify-content:center; gap:8px; z-index:4;
+  }
+  .modal-dot{
+    min-width:7px; height:7px; border-radius:30px;
+    background:rgba(242,238,230,0.5); cursor:pointer;
+    font-size:0; line-height:7px;
+    transition: all .2s;
+  }
+  .modal-dot.active{ background:var(--cream); }
+  .modal-dot[title=" "]{
+    width:auto; padding:0 6px; font-size:8px; color:rgba(242,238,230,0.8);
+    display:flex; align-items:center; height:18px; border-radius:10px;
+    font-family:'Inter',sans-serif;
+  }
+  .modal-dot[title=" "].active{ color:var(--ink); }
+  .modal-body{ padding:48px 50px 56px; min-height:380px; display:flex; flex-direction:column; justify-content:center; }
+  .modal-meta{
+    font-size:12px; color:darkblue; font-weight:500; letter-spacing:0.08em;
+    margin-bottom:16px;
+  }
+  .modal-title{ font-size:clamp(24px, 4vw, 42px); margin-bottom:26px; line-height:1.1; }
+  .modal-desc{ font-size:17px; line-height:1.75; color:var(--ink-soft); }
+  .modal-desc a{ color:var(--red); text-decoration:underline; text-underline-offset:2px; }
+  .modal-desc a:hover{ opacity:0.75; }
+
+  @media (max-width:600px){
+    .modal-slider{ max-height:none; }
+    .modal-body{ padding:30px 24px 36px; min-height:0; }
+    .modal-title{ font-size:28px; }
+  }
+
+  /* === ABOUT (dark) === */
+  .about-dark{
+    background:var(--ink); color:var(--cream);
+    max-width: 1440px; min-height: 624px; height: auto;
+  }
+  .about-dark .eyebrow{ color:#F2EEE6; border-bottom-color:var(--line-dark); }
+  .about-dark .section-title{ color:var(--cream); }
+
+  /* === CONTACT === */
+  .contact-grid{
+    display:grid; grid-template-columns: 1.3fr 0.9fr; gap:clamp(40px, 6vw, 80px);
+    margin-top:8px;
+  }
+  .field{ margin-bottom:34px; }
+  .field-label{
+    font-size:12px; color:darkblue; font-weight:500;
+    padding-bottom:5px; margin-bottom:14px;
+    border-bottom:1px solid rgba(216,67,29,0.4);
+    display:inline-block;
+  }
+  .field input, .field textarea{
+    display:block; width:100%;
+    border:none; border-bottom:1px solid var(--line);
+    background:transparent;
+    font-family:'Inter', sans-serif;
+    font-size:17px; color:var(--ink);
+    padding:8px 0 14px;
+    outline:none;
+  }
+  .field input::placeholder, .field textarea::placeholder{ color: var(--ink); opacity:0.55; }
+  .field textarea{ resize:vertical; min-height:90px; }
+  .field input:focus, .field textarea:focus{ border-bottom-color:var(--ink); }
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px, 4vw, 40px); }
+
+  .contact-side .field-label{ margin-bottom:6px; display:block; width:fit-content; }
+  .side-block{ margin-bottom:36px; }
+  .side-block:last-of-type{ margin-bottom:0; }
+  .side-btn{ display:inline-flex; margin-top:10px; }
+  .elsewhere{ margin-top:10px; }
+  .contact-email{ font-size:clamp(19px, 3vw, 26px); margin-bottom:34px; word-break:break-word; }
+  .elsewhere a{
+    display:block; font-size:20px; margin-bottom:8px;
+    border-bottom:1px solid transparent;
+  }
+  .elsewhere a:hover{ border-bottom-color: var(--ink); }
+  .copyright{
+    margin-top:30px; padding-top:20px; border-top:1px solid var(--line);
+    font-size:12px; color:darkblue; font-weight:500;
+  }
+
+  /* === FOOTER (dark) === */
+  footer{
+    background:var(--ink); color:var(--cream);
+    padding:clamp(40px, 7vw, 70px) clamp(20px, 5vw, 60px) 50px;
+  }
+  .footer-top{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    border-bottom:1px solid var(--line-dark);
+    padding-bottom:40px; margin-bottom: 0;
+    flex-wrap:wrap; gap:24px;
+  }
+  .footer-eyebrow{
+    font-size:12px; color:red; font-weight:500;
+    padding-bottom:6px; margin-bottom:16px;
+    border-bottom:1px solid var(--line-dark);
+    display:inline-block;
+  }
+  .footer-title{ font-size:clamp(28px, 5vw, 48px); line-height:1.15; }
+  .footer-links{ display:flex; gap:24px; flex-wrap:wrap; }
+  .footer-links a{ font-size:12px; letter-spacing:0.1em; font-weight:500; color:rgba(242,238,230,0.8); }
+  .footer-links a:hover{ color:var(--cream); }
+
+  /* ===== TABLET / MOBILE (<=900px) ===== */
+  @media (max-width:900px){
+    .nav-toggle{ display:flex; }
+    .nav-links{
+      display:flex; flex-direction:column;
+      position:fixed; top:0; right:0;
+      height:100vh; width:min(78vw, 320px);
+      background:var(--cream);
+      padding:100px 32px 32px;
+      gap:28px;
+      box-shadow:-8px 0 30px rgba(0,0,0,0.12);
+      transform:translateX(100%);
+      transition: transform .3s ease;
+      z-index:55;
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-links a{ font-size:16px; }
+    .nav-overlay{
+      display:none;
+      position:fixed; inset:0; background:rgba(23,21,19,0.4);
+      z-index:45;
+    }
+    .nav-overlay.open{ display:block; }
+
+    .hero{ grid-template-columns:1fr; }
+    .hero-side{ padding-top:40px; }
+    .hero-portrait{ max-width:160px; }
+    .meta-grid{ grid-template-columns:1fr 1fr; }
+    .about-body{ grid-template-columns:1fr; }
+    .about-portrait{ width:160px; margin:8px auto 0; }
+    .contact-grid, .two-col{ grid-template-columns:1fr; }
+    .work-grid{ grid-template-columns:1fr; }
+    .footer-top{ flex-direction:column; align-items:flex-start; gap:24px; }
+  }
+
+  /* ===== SMALL PHONES (<=480px) ===== */
+  @media (max-width:480px){
+    .nav{ padding-top:16px; padding-bottom:16px; }
+    .logo{ font-size:11px; }
+    .btn{ padding:13px 18px; font-size:12px; }
+    .nav > .download-cv-btn{ display:none; }
+    .nav-cv-mobile{ display:inline-flex !important; margin-top:8px; width:100%; justify-content:center; }
+    .hero{ padding-top:36px; }
+    .eyebrow{ font-size:12px; }
+    .bio-text{ font-size:15px; }
+    .hero-buttons{ flex-direction:column; }
+    .hero-buttons .btn{ width:100%; justify-content:center; }
+    .meta-grid{ grid-template-columns:1fr; gap:24px; }
+    .meta-strip{ padding-top:28px; }
+    .available{ flex-wrap:wrap; }
+    .marquee-track{ animation-duration:7s; }
+    .filters{ gap:8px; }
+    .filter-pill{ padding:9px 16px; font-size:13px; }
+    .section-desc{ font-size:15px; }
+    .work-card-caption{ flex-direction:column; align-items:flex-start; gap:10px; }
+    .accordion-btn{ padding:16px 24px; font-size:12px; }
+    .about-dark{ min-height:0; }
+    .about-portrait{ width:130px; }
+    .field-label{ font-size:11px; }
+    .field input, .field textarea{ font-size:15px; }
+    .contact-email{ font-size:19px; }
+    .elsewhere a{ font-size:17px; }
+    .footer-links{ gap:16px; }
+    .footer-links a{ font-size:11px; }
+    .modal-overlay{ padding:0; align-items:stretch; }
+    .modal-box{ margin-bottom:0; min-height:100vh; border:none; }
+    .modal-body{ padding:26px 20px 40px; }
+    .modal-nav{ width:36px; height:36px; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#" class="logo"><span class="dot"></span>Alfa's Portfolio</a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#work">WORK</a>
+      <a href="#about">ABOUT</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+      <a href="cv/RIDHO ALFARIZI-CV.pdf" download class="btn btn-solid download-cv-btn" target="_blank">DOWNLOAD CV</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="eyebrow mono">PORTFOLIO &middot; 2023 — 2026</div>
+    <!-- Replace src with your portrait URL (Google Drive: drive.google.com/thumbnail?id=FILE_ID&sz=w400) -->
+    <div class="hero-portrait">
+      <img src="portrait/Ridho Alfarizi_Hero.jpg" alt="Portrait">
+    </div>
+  </div>
+  <div class="hero-side">
+    <hr class="hero-rule">
+    <div class="eyebrow mono">&middot; BIO </div>
+    <p class="bio-text">I'm a junior multimedia designer working in graphic design, animation, 2D/3D games, web development, UI/UX, and post-production video editing. I'm also open to other positions related to digital multimedia and beyond.</p>
+    <div class="hero-buttons">
+      <a href="#work" class="btn btn-solid mono">VIEW WORK ↘</a>
+      <a href="cv/RIDHO ALFARIZI-CV.pdf" download class="btn btn-outline mono download-cv-btn" target="_blank">DOWNLOAD CV →</a>
+    </div>
+  </div>
+</section>
+
+<!-- META STRIP -->
+<section class="meta-strip">
+  <div class="meta-grid">
+    <div>
+      <div class="meta-label mono">NAME</div>
+      <div class="meta-value serif">Ridho Alfarizi</div>
+    </div>
+    <div>
+      <div class="meta-label mono">ROLE</div>
+      <div class="meta-value serif">Junior Multimedia Designer</div>
+    </div>
+    <div>
+      <div class="meta-label mono">BASED IN</div>
+      <div class="meta-value serif">Jakarta, Indonesia</div>
+    </div>
+    <div>
+      <div class="meta-label mono">EXPERIENCE</div>
+      <div class="meta-value serif">2+ years</div>
+    </div>
+  </div>
+  <div class="available mono"><span class="dot"></span>AVAILABLE FOR WORK, FREELANCE, AND INTERNSHIP &middot;</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track serif">
+    <span>Game <span class="mono sep">&bull;</span></span>
+    <span>Video <span class="mono sep">&bull;</span></span>
+    <span>Ridho Alfarizi <span class="mono sep">&bull;</span></span>
+    <span>Alfa <span class="mono sep">&bull;</span></span>
+    <span>Graphic <span class="mono sep">&bull;</span></span>
+    <span>Motion <span class="mono sep">&bull;</span></span>
+    <span>Junior MD <span class="mono sep">&bull;</span></span>
+    <span>2+ Years <span class="mono sep">&bull;</span></span>
+    <span>Game <span class="mono sep">&bull;</span></span>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="section-head"></div>
+    <div>
+      <div class="eyebrow mono">WORKS &middot; PROJECTS</div>
+      <h2 class="section-title serif">Work, in fragments — <em>from 2023 to today.</em></h2>
+      <p class="section-desc">A collection of projects from various fields, including graphic design, motion graphics, games, video editing, UI/UX, and web development. Projects include both individual and team projects. Filter by category or open a project article to read the full story.</p>
+      <br></br>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-pill active" data-filter="all">All Work</button>
+    <button class="filter-pill" data-filter="graphic">Graphic Design</button>
+    <button class="filter-pill" data-filter="game">Game Development</button>
+    <button class="filter-pill" data-filter="image editing">Image Editing</button>
+    <button class="filter-pill" data-filter="motion">Motion Graphic</button>
+    <button class="filter-pill" data-filter="ui/ux">UI/UX</button>
+    <button class="filter-pill" data-filter="video">Video Editing</button>
+    <button class="filter-pill" data-filter="webdev">Web Development</button>
+  </div>
+
+  <div class="work-grid" id="work-grid"></div>
+  <div class="accordion-wrap" id="accordion-wrap" style="display:none;">
+    <button class="accordion-btn mono" id="accordion-btn">
+      <span id="accordion-label">SHOW ALL WORK</span>
+      <span class="accordion-icon" id="accordion-icon">↓</span>
+    </button>
+  </div>
+</section>
+
+<!-- CONTACT CONFIRM POPUP -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <button class="confirm-close" id="confirm-close-x">&times;</button>
+    <div class="confirm-icon">✓</div>
+    <div class="confirm-title serif">Message sent</div>
+    <div class="confirm-desc">Thanks for reaching out — your message has been sent. I'll get back to you soon.</div>
+    <button class="btn btn-solid mono confirm-ok-btn" id="confirm-ok-btn">OK</button>
+  </div>
+</div>
+
+<!-- WORK DETAIL MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box" style="position:relative;">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <div class="modal-slider" id="modal-slider"></div>
+    <div class="modal-body">
+      <div class="modal-meta mono" id="modal-meta"></div>
+      <h3 class="modal-title serif" id="modal-title"></h3>
+      <p class="modal-desc" id="modal-desc"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT (dark) -->
+<section class="section about-dark" id="about">
+    <div>
+      <div class="eyebrow mono">&middot; ABOUT ME</div>
+    </div>
+  </div>
+  <div class="about-body">
+    <div class="about-text-col">
+      <p>I am Ridho Alfarizi, you can call me Alfa. I was graduated from Department of Informatics and Computer Engineering, Digital Multimedia Engineering Study Program. I have 2+ years experience in Digital Multimedia things with 10+ handled projects.</p>
+      <p>I open for opportunities in full time jobs, part-time projects, freelance work and internship in digital multimedia things. If you need me outside digital multimedia sectors, I am open for discussions so we can discuss more about that.</p>
+      <p>You can find more about my works by clicking "Work" button or find it manually above this sections. If you need my contacts, you can check it by clicking "Contact" button.</p>
+    </div>
+    <!-- Replace src with your portrait URL (Google Drive: drive.google.com/thumbnail?id=FILE_ID&sz=w400) -->
+    <div class="about-portrait">
+      <img src="portrait/Ridho Alfarizi_About.jpg" alt="Portrait">
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="section-head"></div>
+    <div>
+      <div class="eyebrow mono">&middot; GET IN TOUCH </div>
+      <h2 class="section-title serif">Let's make something <em> together!.</em></h2>
+      <p class="section-desc">Have a brief, a wild idea, or want to discuss more about the opportunities? Drop a message — I read every one.</p>
+    </div>
+  </div>
+
+  <div class="contact-grid">
+    <form id="contact-form">
+      <div class="two-col">
+        <div class="field">
+          <div class="field-label mono">YOUR NAME</div>
+          <input type="text" id="cf-name" placeholder="Jane Doe" required>
+        </div>
+        <div class="field">
+          <div class="field-label mono">EMAIL</div>
+          <input type="email" id="cf-email" placeholder="jane@studio.com" required>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label mono">SUBJECT</div>
+        <input type="text" id="cf-subject" placeholder="Work offers, projects, freelance, or discuss more" required>
+      </div>
+      <div class="field">
+        <div class="field-label mono">MESSAGE</div>
+        <textarea id="cf-message" placeholder="Let's work together!" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-solid mono">SEND MESSAGE →</button>
+    </form>
+
+    <div class="contact-side">
+      <div class="side-block">
+        <div class="field-label mono">EMAIL</div>
+        <div class="contact-email serif">ridhoalfarizi79448@gmail.com</div>
+      </div>
+
+      <div class="side-block">
+        <div class="field-label mono">WHATSAPP</div>
+        <a href="https://wa.me/6282373433798?text=Hello!%20I'm%20interested%20in%20working%20together%20with%20you!" target="_blank" rel="noopener" class="btn btn-outline mono side-btn">CHAT ON WHATSAPP ↗</a>
+      </div>
+
+      <div class="side-block">
+        <div class="field-label mono">CV / RESUME</div>
+        <a href="cv/RIDHO ALFARIZI-CV.pdf" download class="btn btn-outline mono download-cv-btn side-btn" target="_blank">DOWNLOAD CV</a>
+      </div>
+
+      <div class="side-block">
+        <div class="field-label mono">ELSEWHERE</div>
+        <div class="elsewhere serif">
+          <a href="https://www.instagram.com/rdhalf79448?igsh=MTNvZDg5c2p0djZkbA==" target="_blank">Instagram ↗</a>
+          <!-- <a href="#">Behance ↗</a> -->
+          <!-- <a href="#">Vimeo ↗</a> -->
+          <a href="https://www.linkedin.com/in/ridhoalfarizi18/" target="_blank">LinkedIn ↗</a>
+        </div>
+      </div>
+
+      <div class="copyright mono">© 2026 RIDHO ALFARIZI</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-eyebrow mono"></div>
+      <div class="footer-title serif">Ridho Alfarizi.<br><em>Designed in Jakarta, Indonesia.</em></div>
+    </div>
+    <div class="footer-links mono">
+      <a href="https://www.instagram.com/rdhalf79448?igsh=MTNvZDg5c2p0djZkbA==" target="_blank">INSTAGRAM</a>
+      <!-- <a href="#">BEHANCE</a> -->
+      <!-- <a href="#">VIMEO</a> -->
+      <a href="https://www.linkedin.com/in/ridhoalfarizi18/" target="_blank">LINKEDIN</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== PROJECT DATA =====
+  // Replace cover/gallery image URLs with your own assets, and edit copy freely.
+  const projects = [
+    {
+      // ===== LOGO =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024 - 2025",
+      title: "Logos",
+      cover: { type: "image", src: "thumbnails/logosgd.png" },
+      gallery: [
+        { type: "image", src: "gd/logo/gglogo.png" },
+        { type: "image", src: "gd/logo/tmlogo.png" },
+        { type: "image", src: "gd/logo/twlogo.png" },
+      ],
+      desc: "These are 3 logos i designed for different purposes and client. First logo was for hampers company called Gillsyi Gift (GG), second logo was for fertilizer and plant care company called TanaMix, and third logo was for Tactical Wolf (TacWolf) Cosplay Personal Company."
+    },
+    {
+      // ===== HANGTAG =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Hangtag",
+      cover: { type: "image", src: "gd/hangtag/hangtag.png" },
+      gallery: [
+        { type: "image", src: "gd/hangtag/hangtag.png" },
+      ],
+      desc: "This is a hangtag design that i designed for hampers company called Gillsyi Gift (GG). Along with the logo and sticker (on different article)."
+    },
+    {
+      // ===== STICKER =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Sticker",
+      cover: { type: "image", src: "gd/sticker/ggsticker2.png" },
+      gallery: [
+        { type: "image", src: "gd/sticker/ggsticker1.png" },
+        { type: "image", src: "gd/sticker/ggsticker2.png" },
+      ],
+      desc: "This is a sticker design that i designed for hampers company called Gillsyi Gift (GG). Along with the logo and hangtag (on different article). I made 2 different version, one with white list while the other is not using any list."
+    },
+    {
+      // ===== BOOK COVER =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Book Cover",
+      cover: { type: "image", src: "gd/bookcover/bookcover.png" },
+      gallery: [
+        { type: "image", src: "gd/bookcover/bookcover.png" },
+      ],
+      desc: "This is a book cover design that i designed for college student group from Bina Sarana Informatika University. The book cover is for their project based learning report group project called Cash Receipts at PT. Pos Indonesia Mekarjaya, Depok."
+    },
+    {
+      // ===== MILBA BEDA =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Milba - Air Conditioner Difference",
+      cover: { type: "image", src: "gd/milbabeda/beda1.png" },
+      gallery: [
+        { type: "image", src: "gd/milbabeda/beda1.png" },
+        { type: "image", src: "gd/milbabeda/beda2.png" },
+        { type: "image", src: "gd/milbabeda/beda3.png" },
+        { type: "image", src: "gd/milbabeda/beda4.png" },
+        { type: "image", src: "gd/milbabeda/beda5.png" },
+        { type: "image", src: "gd/milbabeda/beda6.png" },
+      ],
+      desc: "These are a digital post that I design for an air conditioner cleaning services PT. MILBA. The design explains what are the differences between house air conditioner and company air conditioner."
+    },
+    {
+      // ===== MILBA JANGAN =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Milba - Don't Let Your Air Conditioner Get Wasted",
+      cover: { type: "image", src: "gd/milbajangan/jangan1.png" },
+      gallery: [
+        { type: "image", src: "gd/milbajangan/jangan1.png" },
+        { type: "image", src: "gd/milbajangan/jangan2.png" },
+        { type: "image", src: "gd/milbajangan/jangan3.png" },
+        { type: "image", src: "gd/milbajangan/jangan4.png" },
+        { type: "image", src: "gd/milbajangan/jangan5.png" },
+      ],
+      desc: "These too are a digital post that I design for an air conditioner cleaning services PT. MILBA. The design explains how to maximized your air conditioner so it doesn't get wasted."
+    },
+    {
+      // ===== RASAKOE - BUMBU =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Rasakoe - Seasonings Variety",
+      cover: { type: "image", src: "gd/rasakoebumbu/bumbu1.png" },
+      gallery: [
+        { type: "image", src: "gd/rasakoebumbu/bumbu1.png" },
+        { type: "image", src: "gd/rasakoebumbu/bumbu2.png" },
+        { type: "image", src: "gd/rasakoebumbu/bumbu3.png" },
+        { type: "image", src: "gd/rasakoebumbu/bumbu4.png" },
+        { type: "image", src: "gd/rasakoebumbu/bumbu5.png" },
+        { type: "image", src: "gd/rasakoebumbu/bumbu6.png" },
+        { type: "image", src: "gd/rasakoebumbu/bumbu7.png" },
+      ],
+      desc: "These are a digital post for e-commerce that I design for a seasonings and spices company PT. RASAKOE. The design shows the variety of seasonings that are produced by the company."
+    },
+    {
+      // ===== RASAKOE - CAUR =====
+      cat: "graphic",
+      catLabel: "GRAPHIC DESIGN",
+      year: "2024",
+      title: "Rasakoe - Seasonings Variety",
+      cover: { type: "image", src: "gd/rasakoecaur/caur1.png" },
+      gallery: [
+        { type: "image", src: "gd/rasakoecaur/caur1.png" },
+        { type: "image", src: "gd/rasakoecaur/caur2.png" },
+        { type: "image", src: "gd/rasakoecaur/caur3.png" },
+        { type: "image", src: "gd/rasakoecaur/caur4.png" },
+      ],
+      desc: "These too are a digital post for e-commerce that I design for a seasonings and spices company PT. RASAKOE. The design shows how to use the caur seasoning and the superiority of it."
+    },
+    {
+      // ===== DECODE =====
+      cat: "game",
+      catLabel: "GAME DEVELOPMENT",
+      year: "2025",
+      title: "DECODE",
+      cover: { type: "image", src: "gdev/decode/decodetitle.png" },
+      gallery: [
+        { type: "image", src: "gdev/decode/decodeicon.png" },
+        { type: "image", src: "gdev/decode/decode1.png" },
+        { type: "image", src: "gdev/decode/decode2.jpg" },
+        { type: "image", src: "gdev/decode/decode3.JPG" },
+        { type: "image", src: "gdev/decode/decode4.JPG" },
+        { type: "image", src: "gdev/decode/decode5.JPG" },
+        { type: "image", src: "gdev/decode/decode6.JPG" },
+        { type: "image", src: "gdev/decode/decode7.JPG" },
+      ],
+      desc: "DECODE originally idea is for testing media to complete Scout General Specialty Condition (Syarat Kecakapan Umum Pramuka Penggalang - SKU) about understanding, answering and sending morse and semaphore code. The background story sets on Indonesia's struggle for independence where the player plays as a boy scout who must help Indonesian fighter to answer and sending codes in order to complete his SKU. The documentation of this game testing with scouts are on 4th to last slides. You can download the game on <a href='https://ngawistudio.itch.io/decode' target='_blank'>this link</a>."
+    },
+    {
+      // ===== TimunMas =====
+      cat: "game",
+      catLabel: "GAME DEVELOPMENT",
+      year: "2023",
+      title: "TimunMas",
+      cover: { type: "image", src: "gdev/timunmas/timunmas1.png" },
+      gallery: [
+        { type: "image", src: "gdev/timunmas/timunmas1.png" },
+        { type: "image", src: "gdev/timunmas/timunmas2.png" },
+        { type: "image", src: "gdev/timunmas/timunmas3.png" },
+        { type: "image", src: "gdev/timunmas/timunmas4.png" },
+        { type: "image", src: "gdev/timunmas/timunmas5.png" },
+        { type: "image", src: "gdev/timunmas/timunmas6.png" },
+      ],
+      desc: "TimunMas is a game I made with my teams when we was on college. The game is adapted from Indonesian folklore with same title. In this game, you play as Timun Mas and try to escape from giant creature named Buto Ijo. If you want to try the game, you can download it at <a href='https://ngawistudio.itch.io/timunmas' target='_blank'>this link</a>."
+    },
+    {
+      // ===== Until The End =====
+      cat: "game",
+      catLabel: "GAME DEVELOPMENT",
+      year: "2024",
+      title: "Until The End",
+      cover: { type: "image", src: "gdev/untiltheend/untiltheendtitle.png" },
+      gallery: [
+        { type: "image", src: "gdev/untiltheend/untiltheend1.png" },
+        { type: "image", src: "gdev/untiltheend/untiltheend2.jpg" },
+        { type: "image", src: "gdev/untiltheend/untiltheend3.jpg" },
+        { type: "image", src: "gdev/untiltheend/untiltheend4.jpg" },
+        { type: "image", src: "gdev/untiltheend/untiltheend5.jpg" },
+        { type: "image", src: "gdev/untiltheend/untiltheend6.jpg" },
+        { type: "image", src: "gdev/untiltheend/untiltheend7.jpg" },
+      ],
+      desc: "Until The End is a 2D pixel-art game about how the condition and how to survive if a country got genocided by other country. You playing as Ahmad, a boy who take a responsibility for his family by gathering supplies. And you must face few enemies while gathering supplies. If you want to try the game, you can download it at <a href='https://ngawistudio.itch.io/until-the-end' target='_blank'>this link</a>."
+    },
+    {
+      // ===== MEGAPRO =====
+      cat: "image editing",
+      catLabel: "IMAGE EDITING",
+      year: "2024",
+      title: "Megapro : NFSMW Edit",
+      cover: { type: "image", src: "ie/megapro/megapro1.jpg" },
+      gallery: [
+        { type: "image", src: "ie/megapro/megapro1.jpg" },
+        { type: "image", src: "ie/megapro/megapro2.jpg" },
+        { type: "image", src: "ie/megapro/megapro3.jpg" },
+      ],
+      desc: "This is an image editing project that I made. The color grading idea came from 'Need For Speed Most Wanted' game with yellowish mood color. In 1st slide is full view of the result, while slide 2 and 3 are the details from up and bottom sides."
+    },
+    {
+      // ===== MILBA BEDA MG =====
+      cat: "motion",
+      catLabel: "MOTION GRAPHIC",
+      year: "2024",
+      title: "Milba - Air Conditioner Difference",
+      cover: { type: "image", src: "mg/mgmilbabeda/mgmilbabedatitle.png" },
+      gallery: [
+        { type: "gdrive", src: "https://drive.google.com/file/d/1gNFcrp8ic0rc8B8fjPp1JMCbAmDtrY1g/view" }
+      ],
+      desc: "This is a motion graphic version that I made for an air conditioner cleaning services PT. MILBA. The motion graphic explains what are the differences between house air conditioner and company air conditioner."
+    },
+    {
+      // ===== MILBA JANGAN MG =====
+      cat: "motion",
+      catLabel: "MOTION GRAPHIC",
+      year: "2024",
+      title: "Milba - Don't Let Your Air Conditioner Get Wasted",
+      cover: { type: "image", src: "mg/mgmilbajangan/mgmilbajangantitle.png" },
+      gallery: [
+        { type: "gdrive", src: "https://drive.google.com/file/d/1I_kaFb6G3E1lqSMlEBUHFfeY0Wa-H7aG/view" }
+      ],
+      desc: "This is a motion graphic version that I made for an air conditioner cleaning services PT. MILBA. The motion graphic explains how to maximized your air conditioner so it doesn't get wasted."
+    },
+    {
+      // ===== MoneyTRACKER =====
+      cat: ["ui/ux", "webdev"],
+      catLabel: ["UI/UX", "Web Development"],
+      year: "2026",
+      title: "MoneyTRACKER — (Under Development)",
+      cover: { type: "image", src: "uiux/moneytracker/moneytracker1.png" },
+      gallery: [
+        { type: "gdrive", src: "https://drive.google.com/file/d/1vk6afy1ZAQVgiKe5u56nJstgAXf00dvG/view" },
+        { type: "image", src: "uiux/moneytracker/moneytracker1.png" },
+        { type: "image", src: "uiux/moneytracker/moneytracker2.png" },
+        { type: "image", src: "uiux/moneytracker/moneytracker3.png" },
+        { type: "image", src: "uiux/moneytracker/moneytracker4.png" },
+      ],
+      desc: "An under development web application that I made for personal use for now. But, I have plan to make this web can be use by people. This web app is used to track personal finance and budget. The design is made using Figma, while the development is using HTML, CSS, and JavaScript."
+    },
+    {
+      // ===== My Portfolio =====
+      cat: ["ui/ux", "webdev"],
+      catLabel: ["UI/UX", "Web Development"],
+      year: "2026",
+      title: "Alfa's Portfolio — (This Website)",
+      cover: { type: "image", src: "uiux/alfaport/alfaport1.png" },
+      gallery: [
+        { type: "image", src: "uiux/alfaport/alfaport1.png" },
+        { type: "image", src: "uiux/alfaport/alfaport2.png" },
+        { type: "image", src: "uiux/alfaport/alfaport3.png" },
+      ],
+      desc: "This is my personal portfolio website that I made to showcase my works and projects (this website itself). The design is made using Figma, while the development is using HTML, CSS, and JavaScript. The website contains responsive buttons for easy navigating."
+    },
+    {
+      // ===== TimunMas Trailer =====
+      cat: "video",
+      catLabel: "VIDEO EDITING",
+      year: "2023",
+      title: "TimunMas — Game Trailer",
+      cover: { type: "image", src: "ve/timunmasgt/timunmasgttitle.png" },
+      gallery: [
+        { type: "gdrive", src: "https://drive.google.com/file/d/1BDHhafC-ofEVlcQ6rUoxGW14ynXJb3wI/view" },
+      ],
+      desc: "This is a game trailer that I made for TimunMas game. The trailer is made using Adobe Premiere Pro. The trailer is used to promote the game and to attract players to play the game. The trailer is also used to showcase the game to potential investors and publishers."
+    },
+    {
+      // ===== Until The End Trailer =====
+      cat: "video",
+      catLabel: "VIDEO EDITING",
+      year: "2024",
+      title: "Until The End — Game Trailer",
+      cover: { type: "image", src: "ve/untiltheendgt/untiltheendgttitle.png" },
+      gallery: [
+        { type: "gdrive", src: "https://drive.google.com/file/d/1KjXLHmiBG-Tuf5JtfoOCuESSolcSxN11/view" },
+      ],
+      desc: "This is a game trailer that I made for Until The End game. The trailer is made using Adobe Premiere Pro. The trailer is used to promote the game and to attract players to play the game. The trailer is also used to showcase the game to potential investors and publishers."
+    }
+  ];
+ // {
+   // cat: "webdev",
+   // catLabel: "Web Development",
+   // year: "2026",
+   // title: "MoneyTRACKER — Solo Project",
+   // cover: "https://images.unsplash.com/photo-1611162617213-7d7f5b1f3b4f?w=900&q=80",
+   // gallery: [
+     //  { type: "image", src: "https://drive.google.com/file/d/1G0JYW9Yu9bVjwlQV5CNpnOVA0yxCdnK8/view" },
+     //  { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4" },
+     //  { type: "youtube", src: "https://www.youtube.com/watch?v=ysSxxIqKNN0" },
+     //  { type: "gdrive", src: "https://drive.google.com/file/d/1KjXLHmiBG-Tuf5JtfoOCuESSolcSxN11/view?usp=sharing" },
+     //  { type: "image", src: "https://drive.google.com/file/d/1G0JYW9Yu9bVjwlQV5CNpnOVA0yxCdnK8/view" }
+     // "https://images.unsplash.com/photo-1611162617213-7d7f5b1f3b4f?w=1400&q=80",
+     // "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1400&q=80"
+   // ],
+   // desc: "A short-form documentary edit following three night-shift workers across a single city. Structured as a triptych, cutting between subjects to build a single continuous emotional arc across a 12-minute runtime."
+ // }
+
+  const pills = document.querySelectorAll('.filter-pill');
+  const grid = document.getElementById('work-grid');
+
+  function isVideo(src){ return typeof src === 'string' && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src); }
+  function isYoutube(src){ return typeof src === 'string' && /youtube\.com\/(watch|embed)|youtu\.be\//i.test(src); }
+  function isGDrive(src){ return typeof src === 'string' && /drive\.google\.com\/file/i.test(src); }
+
+  function getYoutubeId(src){
+    const m = src.match(/(?:v=|embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function getGDriveId(src){
+    const m = src.match(/\/d\/([A-Za-z0-9_-]+)/);
+    return m ? m[1] : null;
+  }
+
+  function getMediaSrc(item, forceType){
+    let src = typeof item === 'string' ? item : item.src;
+    const type = forceType || getMediaType(item);
+    if(isGDrive(src)){
+      const id = getGDriveId(src);
+      if(id){
+        if(type === 'image'){
+          // Google Drive image: use thumbnail endpoint (works publicly)
+          return `https://drive.google.com/thumbnail?id=${id}&sz=w1400`;
+        } else {
+          // Google Drive video: use preview embed
+          return `https://drive.google.com/file/d/${id}/preview`;
+        }
+      }
+    }
+    return src;
+  }
+
+  function getMediaType(item){
+    if(typeof item === 'object' && item.type) return item.type;
+    const src = typeof item === 'string' ? item : item.src;
+    if(isYoutube(src)) return 'youtube';
+    if(isGDrive(src)) return 'gdrive';
+    if(isVideo(src)) return 'video';
+    return 'image';
+  }
+
+  const VISIBLE_LIMIT = 4;
+  let accordionOpen = false;
+  const accordionWrap = document.getElementById('accordion-wrap');
+  const accordionBtn = document.getElementById('accordion-btn');
+  const accordionLabel = document.getElementById('accordion-label');
+  const accordionIcon = document.getElementById('accordion-icon');
+
+  function buildCard(p){
+    const coverType = getMediaType(p.cover);
+    const coverSrc = getMediaSrc(p.cover, coverType);
+    const coverIsVideo = coverType === 'video';
+    const thumb = coverIsVideo
+      ? `<video src="${coverSrc}" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video><div class="play-badge"></div>`
+      : `<img src="${coverSrc}" alt="${p.title}">`;
+    return `<button class="work-card" data-index="${projects.indexOf(p)}">
+        <div class="work-card-img" style="position:relative;">${thumb}</div>
+        <div class="work-card-caption">
+          <div>
+            <div class="work-card-meta mono">${Array.isArray(p.catLabel) ? p.catLabel.join(' · ') : p.catLabel} &middot; ${p.year}</div>
+            <div class="work-card-title serif">${p.title}</div>
+          </div>
+          <div class="work-card-arrow">↗</div>
+        </div>
+      </button>`;
+  }
+
+  function bindCardClicks(){
+    grid.querySelectorAll('.work-card').forEach(card => {
+      card.addEventListener('click', () => openModal(parseInt(card.dataset.index)));
+    });
+  }
+
+  function renderGrid(filter){
+    accordionOpen = false;
+    const list = filter === 'all' ? projects : projects.filter(p => {
+      const cats = Array.isArray(p.cat) ? p.cat : [p.cat];
+      return cats.includes(filter);
+    });
+    const visible = list.slice(0, VISIBLE_LIMIT);
+    const hidden = list.slice(VISIBLE_LIMIT);
+
+    grid.innerHTML = [
+      ...visible.map(p => buildCard(p)),
+      ...hidden.map(p => `<div class="extra-card" style="display:none;">${buildCard(p)}</div>`)
+    ].join('');
+
+    bindCardClicks();
+
+    if(hidden.length > 0){
+      accordionWrap.style.display = 'flex';
+      accordionBtn.classList.remove('open');
+      accordionLabel.textContent = `SHOW ALL (${list.length} WORKS)`;
+      accordionIcon.textContent = '↓';
+    } else {
+      accordionWrap.style.display = 'none';
+    }
+  }
+
+  accordionBtn.addEventListener('click', () => {
+    accordionOpen = !accordionOpen;
+    grid.querySelectorAll('.extra-card').forEach(card => {
+      card.style.display = accordionOpen ? 'contents' : 'none';
+    });
+    if(accordionOpen) bindCardClicks();
+    accordionBtn.classList.toggle('open', accordionOpen);
+    const totalCount = grid.querySelectorAll('.work-card').length;
+    accordionLabel.textContent = accordionOpen ? 'SHOW LESS' : `SHOW ALL (${totalCount} WORKS)`;
+    accordionIcon.textContent = accordionOpen ? '↑' : '↓';
+  });
+
+  pills.forEach(p => p.addEventListener('click', () => {
+    pills.forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    renderGrid(p.dataset.filter);
+  }));
+
+  renderGrid('all');
+
+  // ===== MODAL =====
+  const overlay = document.getElementById('modal-overlay');
+  const slider = document.getElementById('modal-slider');
+  const dotsWrap = document.getElementById('modal-dots');
+  const modalMeta = document.getElementById('modal-meta');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+  let currentSlide = 0;
+  let currentGallery = [];
+
+  function openModal(index){
+    const p = projects[index];
+    currentGallery = p.gallery;
+    currentSlide = 0;
+    modalMeta.textContent = `${Array.isArray(p.catLabel) ? p.catLabel.join(' · ') : p.catLabel} · ${p.year}`;
+    modalTitle.textContent = p.title;
+    modalDesc.innerHTML = p.desc;
+    renderSlides();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function pauseActiveVideo(){
+    // Used when switching slides — pauses video, rebuilds slide via renderSlides after
+    const vid = slider.querySelector('.modal-slide.active video');
+    if(vid) vid.pause();
+    const iframe = slider.querySelector('.modal-slide.active iframe');
+    if(iframe){ const s = iframe.src; iframe.src = ''; iframe.src = s; }
+  }
+
+  function stopAllMedia(){
+    // Used when closing modal — hard stops everything, no restore needed
+    const vid = slider.querySelector('video');
+    if(vid) vid.pause();
+    slider.querySelectorAll('iframe').forEach(f => f.src = '');
+  }
+
+  function renderSlides(){
+    const slides = currentGallery.map((item, i) => {
+      const type = getMediaType(item);
+      const src = getMediaSrc(item, type);
+      let media;
+      if(type === 'video'){
+        media = `<video src="${src}" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;background:#000;"></video>`;
+      } else if(type === 'youtube'){
+        const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
+        const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
+        const watchUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : src;
+        media = `
+          <a class="yt-thumb" href="${watchUrl}" target="_blank" rel="noopener">
+            <img src="${thumb}" alt="YouTube video thumbnail">
+            <div class="yt-play"></div>
+            <div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>
+          </a>`;
+      } else if(type === 'gdrive' || type === 'iframe'){
+        const autoplay = i === currentSlide ? (src.includes('?') ? '&autoplay=1' : '?autoplay=1') : '';
+        media = `<iframe src="${src}${autoplay}" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;display:block;pointer-events:auto;"></iframe>`;
+      } else {
+        media = `<img src="${src}" alt="Project image ${i+1}">`;
+      }
+      return `<div class="modal-slide ${i === currentSlide ? 'active' : ''}" data-i="${i}">${media}</div>`;
+    }).join('');
+
+    const navHtml = `
+      <button class="modal-nav modal-prev" id="modal-prev">&larr;</button>
+      <button class="modal-nav modal-next" id="modal-next">&rarr;</button>
+      <div class="modal-dots" id="modal-dots">
+        ${currentGallery.map((item, i) => {
+          const type = getMediaType(item);
+          const icon = (type === 'video' || type === 'gdrive' || type === 'iframe' || type === 'youtube') ? '▶' : '';
+          return `<div class="modal-dot ${i === currentSlide ? 'active' : ''}" data-i="${i}" title="${icon}">${icon}</div>`;
+        }).join('')}
+      </div>`;
+
+    slider.innerHTML = slides + navHtml;
+    document.getElementById('modal-prev').addEventListener('click', () => changeSlide(-1));
+    document.getElementById('modal-next').addEventListener('click', () => changeSlide(1));
+    document.querySelectorAll('.modal-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        pauseActiveVideo();
+        currentSlide = parseInt(dot.dataset.i);
+        renderSlides();
+      });
+    });
+  }
+
+  function changeSlide(dir){
+    pauseActiveVideo();
+    currentSlide = (currentSlide + dir + currentGallery.length) % currentGallery.length;
+    renderSlides();
+  }
+
+  function closeModal(){
+    stopAllMedia();
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if(!overlay.classList.contains('open')) return;
+    if(e.key === 'Escape') closeModal();
+    if(e.key === 'ArrowRight') changeSlide(1);
+    if(e.key === 'ArrowLeft') changeSlide(-1);
+  });
+
+  // mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  const navOverlay = document.getElementById('nav-overlay');
+
+  function closeNav(){
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navLinks.classList.remove('open');
+    navOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function toggleNav(){
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navOverlay.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+  navToggle.addEventListener('click', toggleNav);
+  navOverlay.addEventListener('click', closeNav);
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+  window.addEventListener('resize', () => { if(window.innerWidth > 900) closeNav(); });
+
+  // download CV confirmation popup
+  document.querySelectorAll('.download-cv-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTimeout(() => alert('CV has been downloaded. Thanks for checking it out!'), 150);
+    });
+  });
+
+  // contact form -> sends email silently in the background via EmailJS
+  // (no mailto: link, so no email app / Gmail / Outlook window ever opens)
+  //
+  // SETUP REQUIRED (one-time, free):
+  // 1. Create an account at https://www.emailjs.com
+  // 2. Add an Email Service (e.g. connect your Gmail) -> copy its "Service ID"
+  // 3. Create an Email Template with variables: {{name}}, {{email}}, {{subject}}, {{message}}
+  //    -> copy its "Template ID"
+  // 4. Go to Account > General -> copy your "Public Key"
+  // 5. Paste all three below where marked.
+  const EMAILJS_PUBLIC_KEY  = 'n0JOc2bLxRFjogk02';   // <-- replace
+  const EMAILJS_SERVICE_ID  = 'service_xxt50s5';   // <-- replace
+  const EMAILJS_TEMPLATE_ID = 'template_m96u99j';  // <-- replace
+
+  if (window.emailjs) emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  const confirmOverlay = document.getElementById('confirm-overlay');
+  const confirmOkBtn   = document.getElementById('confirm-ok-btn');
+  const confirmCloseX  = document.getElementById('confirm-close-x');
+
+  function openConfirm(){ confirmOverlay.classList.add('open'); }
+  function closeConfirm(){ confirmOverlay.classList.remove('open'); }
+  confirmOkBtn.addEventListener('click', closeConfirm);
+  confirmCloseX.addEventListener('click', closeConfirm);
+  confirmOverlay.addEventListener('click', (e) => { if(e.target === confirmOverlay) closeConfirm(); });
+
+  const contactForm = document.getElementById('contact-form');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'SENDING...';
+
+    const params = {
+      name: document.getElementById('cf-name').value || 'N/A',
+      email: document.getElementById('cf-email').value || 'N/A',
+      subject: document.getElementById('cf-subject').value || 'New message from portfolio site',
+      message: document.getElementById('cf-message').value || ''
+    };
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+      .then(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        contactForm.reset();
+        openConfirm();
+      })
+      .catch((err) => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        console.error('EmailJS error:', err);
+        alert('Something went wrong sending your message. Please try again or email me directly.');
+      });
+  });
+</script>
+
+</body>
+</html>
