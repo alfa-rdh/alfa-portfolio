@@ -125,10 +125,6 @@
     border-bottom:1px solid var(--line);
     display:inline-block;
   }
-  /* .hero h1{
-    font-size:64px; line-height:1.05; font-weight:500;
-    letter-spacing:-0.01em;
-  } */
   .hero h1 .square{
     display:inline-block; width:24px; height:24px; background:darkblue;
     vertical-align:middle; margin-left:10px;
@@ -163,7 +159,7 @@
     margin-top:16px;
     align-items:start;
   }
-  .about-text-col{ display:flex; flex-direction:column; gap:24px; /* text-wrap: balance; */}
+  .about-text-col{ display:flex; flex-direction:column; gap:24px; }
   .about-body p{
     font-size:16px; line-height:1.7; color:rgba(242,238,230,0.78);
   }
@@ -228,10 +224,6 @@
 
   /* === WORK SECTION === */
   .section{ padding:clamp(40px, 7vw, 64px) clamp(20px, 5vw, 56px); max-width:1440px; margin:0 auto; scroll-margin-top:72px; }
-  /* .section-head{
-    display:grid; grid-template-columns: 220px 1fr; gap:40px;
-    margin-bottom:54px;
-  } */
   .index-num{
     font-size:clamp(48px, 8vw, 90px); font-weight:600; color:transparent;
     -webkit-text-stroke: 1.4px var(--ink);
@@ -417,7 +409,6 @@
     color:rgba(255,255,255,0.85); font-size:13px; font-family:'JetBrains Mono',monospace;
     letter-spacing:0.06em;
   }
-  /* play badge on work cards that have a video cover */
   .play-badge{
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     width:52px; height:52px; border-radius:50%;
@@ -433,8 +424,6 @@
     border-color:transparent transparent transparent #F2EEE6;
     margin-left:4px;
   }
-  /* fullscreen button sits on the slide itself, top-left so it never collides
-     with Google Drive's own top-right controls */
   .modal-fullscreen-btn{
     position:absolute; top:10px; left:10px; z-index:6;
     width:36px; height:36px; border:none; border-radius:4px;
@@ -443,7 +432,6 @@
     cursor:pointer; font-size:16px; line-height:1;
   }
   .modal-fullscreen-btn:hover{ background:rgba(23,21,19,0.88); }
-  /* controls now live BELOW the media, never overlapping it or an embed's own UI */
   .modal-controls-below{
     display:flex; align-items:center; justify-content:center;
     gap:14px; padding:12px 14px; background:#0c0b0a;
@@ -473,7 +461,7 @@
   .modal-dot[data-embed="1"].active{ color:var(--ink); background:var(--cream); }
   .modal-body{
     padding:40px 50px 56px; display:flex; flex-direction:column; justify-content:flex-start;
-    flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
   }
   .modal-meta{
     font-size:12px; color:darkblue; font-weight:500; letter-spacing:0.08em;
@@ -485,8 +473,14 @@
   .modal-desc a:hover{ opacity:0.75; }
 
   @media (max-width:600px){
-    .modal-slider{ max-height:none; }
-    .modal-body{ padding:26px 20px 40px; }
+    /* Perbaikan 2: memberikan rasio dan min-height yang pas pada mobile agar pemutar video Google Drive merender penuh */
+    .modal-slider{ 
+      max-height:none; 
+      aspect-ratio: 16 / 10;
+      min-height: 240px;
+    }
+    /* Perbaikan 1: menambah padding-bottom agar teks paling bawah modal dapat dibaca utuh */
+    .modal-body{ padding:26px 20px 80px; }
     .modal-title{ font-size:28px; }
   }
 
@@ -627,8 +621,17 @@
     .footer-links{ gap:16px; }
     .footer-links a{ font-size:11px; }
     .modal-overlay{ padding:0; align-items:stretch; }
-    .modal-box{ margin-bottom:0; height:100vh; max-height:100vh; border:none; }
-    .modal-body{ padding:26px 20px 40px; }
+    
+    /* Perbaikan 1: Menggunakan 100dvh agar modal benar-benar pas dengan tinggi layar ponsel yang aktif */
+    .modal-box{ 
+      margin-bottom:0; 
+      height:100vh;
+      height:100dvh; 
+      max-height:100vh;
+      max-height:100dvh; 
+      border:none; 
+    }
+    .modal-body{ padding:26px 20px 80px; }
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -644,7 +647,7 @@
       <a href="#contact">CONTACT</a>
     </nav>
     <nav>
-      <a href="cv/RIDHO ALFARIZI-CV.pdf" download class="btn btn-solid download-cv-btn" target="_blank">DOWNLOAD CV</a>      
+      <a href="cv/RIDHO ALFARIZI-CV.pdf" download class="btn btn-solid download-cv-btn" target="_blank">DOWNLOAD CV</a>     
     </nav>
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
   </div>
@@ -655,7 +658,6 @@
 <section class="hero">
   <div>
     <div class="eyebrow mono">PORTFOLIO &middot; 2023 — 2026</div>
-    <!-- Replace src with your portrait URL (Google Drive: drive.google.com/thumbnail?id=FILE_ID&sz=w400) -->
     <div class="hero-portrait">
       <img src="portrait/Ridho Alfarizi_Hero.jpg" alt="Portrait" fetchpriority="high" decoding="async">
     </div>
@@ -778,7 +780,6 @@
       <p>I open for opportunities in full time jobs, part-time projects, freelance work and internship in digital multimedia things. If you need me outside digital multimedia sectors, I am open for discussions so we can discuss more about that.</p>
       <p>You can find more about my works by clicking "Work" button or find it manually above this sections. If you need my contacts, you can check it by clicking "Contact" button.</p>
     </div>
-    <!-- Replace src with your portrait URL (Google Drive: drive.google.com/thumbnail?id=FILE_ID&sz=w400) -->
     <div class="about-portrait">
       <img src="portrait/Ridho Alfarizi_About.jpg" alt="Portrait" loading="lazy" decoding="async">
     </div>
@@ -838,8 +839,6 @@
         <div class="field-label mono">ELSEWHERE</div>
         <div class="elsewhere serif">
           <a href="https://www.instagram.com/rdhalf79448?igsh=MTNvZDg5c2p0djZkbA==" target="_blank">Instagram ↗</a>
-          <!-- <a href="#">Behance ↗</a> -->
-          <!-- <a href="#">Vimeo ↗</a> -->
           <a href="https://www.linkedin.com/in/ridhoalfarizi18/" target="_blank">LinkedIn ↗</a>
         </div>
       </div>
@@ -858,8 +857,6 @@
     </div>
     <div class="footer-links mono">
       <a href="https://www.instagram.com/rdhalf79448?igsh=MTNvZDg5c2p0djZkbA==" target="_blank">INSTAGRAM</a>
-      <!-- <a href="#">BEHANCE</a> -->
-      <!-- <a href="#">VIMEO</a> -->
       <a href="https://www.linkedin.com/in/ridhoalfarizi18/" target="_blank">LINKEDIN</a>
     </div>
   </div>
@@ -867,10 +864,8 @@
 
 <script>
   // ===== PROJECT DATA =====
-  // Replace cover/gallery image URLs with your own assets, and edit copy freely.
   const projects = [
     {
-      // ===== LOGO =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024 - 2025",
@@ -884,7 +879,6 @@
       desc: "These are 3 logos i designed for different purposes and client. First logo was for hampers company called Gillsyi Gift (GG), second logo was for fertilizer and plant care company called TanaMix, and third logo was for Tactical Wolf (TacWolf) Cosplay Personal Company."
     },
     {
-      // ===== HANGTAG =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -896,7 +890,6 @@
       desc: "This is a hangtag design that i designed for hampers company called Gillsyi Gift (GG). Along with the logo and sticker (on different article)."
     },
     {
-      // ===== STICKER =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -909,7 +902,6 @@
       desc: "This is a sticker design that i designed for hampers company called Gillsyi Gift (GG). Along with the logo and hangtag (on different article). I made 2 different version, one with white list while the other is not using any list."
     },
     {
-      // ===== BOOK COVER =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -921,7 +913,6 @@
       desc: "This is a book cover design that i designed for college student group from Bina Sarana Informatika University. The book cover is for their project based learning report group project called Cash Receipts at PT. Pos Indonesia Mekarjaya, Depok."
     },
     {
-      // ===== MILBA BEDA =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -938,7 +929,6 @@
       desc: "These are a digital post that I design for an air conditioner cleaning services PT. MILBA. The design explains what are the differences between house air conditioner and company air conditioner."
     },
     {
-      // ===== MILBA JANGAN =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -954,7 +944,6 @@
       desc: "These too are a digital post that I design for an air conditioner cleaning services PT. MILBA. The design explains how to maximized your air conditioner so it doesn't get wasted."
     },
     {
-      // ===== RASAKOE - BUMBU =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -972,7 +961,6 @@
       desc: "These are a digital post for e-commerce that I design for a seasonings and spices company PT. RASAKOE. The design shows the variety of seasonings that are produced by the company."
     },
     {
-      // ===== RASAKOE - CAUR =====
       cat: "graphic",
       catLabel: "GRAPHIC DESIGN",
       year: "2024",
@@ -987,7 +975,6 @@
       desc: "These too are a digital post for e-commerce that I design for a seasonings and spices company PT. RASAKOE. The design shows how to use the caur seasoning and the superiority of it."
     },
     {
-      // ===== DECODE =====
       cat: "game",
       catLabel: "GAME DEVELOPMENT",
       year: "2025",
@@ -1006,7 +993,6 @@
       desc: "DECODE originally idea is for testing media to complete Scout General Specialty Condition (Syarat Kecakapan Umum Pramuka Penggalang - SKU) about understanding, answering and sending morse and semaphore code. The background story sets on Indonesia's struggle for independence where the player plays as a boy scout who must help Indonesian fighter to answer and sending codes in order to complete his SKU. The documentation of this game testing with scouts are on 4th to last slides. You can download the game on <a href='https://ngawistudio.itch.io/decode' target='_blank'>this link</a>."
     },
     {
-      // ===== TimunMas =====
       cat: "game",
       catLabel: "GAME DEVELOPMENT",
       year: "2023",
@@ -1023,7 +1009,6 @@
       desc: "TimunMas is a game I made with my teams when we was on college. The game is adapted from Indonesian folklore with same title. In this game, you play as Timun Mas and try to escape from giant creature named Buto Ijo. If you want to try the game, you can download it at <a href='https://ngawistudio.itch.io/timunmas' target='_blank'>this link</a>."
     },
     {
-      // ===== Until The End =====
       cat: "game",
       catLabel: "GAME DEVELOPMENT",
       year: "2024",
@@ -1041,7 +1026,6 @@
       desc: "Until The End is a 2D pixel-art game about how the condition and how to survive if a country got genocided by other country. You playing as Ahmad, a boy who take a responsibility for his family by gathering supplies. And you must face few enemies while gathering supplies. If you want to try the game, you can download it at <a href='https://ngawistudio.itch.io/until-the-end' target='_blank'>this link</a>."
     },
     {
-      // ===== MEGAPRO =====
       cat: "image editing",
       catLabel: "IMAGE EDITING",
       year: "2024",
@@ -1055,7 +1039,6 @@
       desc: "This is an image editing project that I made. The color grading idea came from 'Need For Speed Most Wanted' game with yellowish mood color. In 1st slide is full view of the result, while slide 2 and 3 are the details from up and bottom sides."
     },
     {
-      // ===== MILBA BEDA MG =====
       cat: "motion",
       catLabel: "MOTION GRAPHIC",
       year: "2024",
@@ -1067,7 +1050,6 @@
       desc: "This is a motion graphic version that I made for an air conditioner cleaning services PT. MILBA. The motion graphic explains what are the differences between house air conditioner and company air conditioner."
     },
     {
-      // ===== MILBA JANGAN MG =====
       cat: "motion",
       catLabel: "MOTION GRAPHIC",
       year: "2024",
@@ -1079,7 +1061,6 @@
       desc: "This is a motion graphic version that I made for an air conditioner cleaning services PT. MILBA. The motion graphic explains how to maximized your air conditioner so it doesn't get wasted."
     },
     {
-      // ===== MoneyTRACKER =====
       cat: ["ui/ux", "webdev"],
       catLabel: ["UI/UX", "Web Development"],
       year: "2026",
@@ -1095,7 +1076,6 @@
       desc: "An under development web application that I made for personal use for now. But, I have plan to make this web can be use by people. This web app is used to track personal finance and budget. The design is made using Figma, while the development is using HTML, CSS, and JavaScript."
     },
     {
-      // ===== My Portfolio =====
       cat: ["ui/ux", "webdev"],
       catLabel: ["UI/UX", "Web Development"],
       year: "2026",
@@ -1109,7 +1089,6 @@
       desc: "This is my personal portfolio website that I made to showcase my works and projects (this website itself). The design is made using Figma, while the development is using HTML, CSS, and JavaScript. The website contains responsive buttons for easy navigating."
     },
     {
-      // ===== TimunMas Trailer =====
       cat: "video",
       catLabel: "VIDEO EDITING",
       year: "2023",
@@ -1121,7 +1100,6 @@
       desc: "This is a game trailer that I made for TimunMas game. The trailer is made using Adobe Premiere Pro. The trailer is used to promote the game and to attract players to play the game. The trailer is also used to showcase the game to potential investors and publishers."
     },
     {
-      // ===== Until The End Trailer =====
       cat: "video",
       catLabel: "VIDEO EDITING",
       year: "2024",
@@ -1133,7 +1111,6 @@
       desc: "This is a game trailer that I made for Until The End game. The trailer is made using Adobe Premiere Pro. The trailer is used to promote the game and to attract players to play the game. The trailer is also used to showcase the game to potential investors and publishers."
     },
     {
-      // ===== Silaturahmi Atsiri Permai at Nicole's River Park =====
       cat: "video",
       catLabel: "VIDEO EDITING",
       year: "2026",
@@ -1170,10 +1147,8 @@
       const id = getGDriveId(src);
       if(id){
         if(type === 'image'){
-          // Google Drive image: use thumbnail endpoint (works publicly)
           return `https://drive.google.com/thumbnail?id=${id}&sz=w1400`;
         } else {
-          // Google Drive video: use preview embed
           return `https://drive.google.com/file/d/${id}/preview`;
         }
       }
@@ -1269,8 +1244,6 @@
 
   renderGrid('all');
 
-  // Preload the covers of the first VISIBLE_LIMIT projects shown on page load,
-  // so they don't have to be requested one-by-one after the page finishes parsing.
   (function preloadInitialCovers(){
     projects.slice(0, VISIBLE_LIMIT).forEach(p => {
       const type = getMediaType(p.cover);
@@ -1292,7 +1265,7 @@
   const modalDesc = document.getElementById('modal-desc');
   let currentSlide = 0;
   let currentGallery = [];
-  let slideEls = [];   // built once per modal open, reused on navigation
+  let slideEls = [];
   let dotEls = [];
 
   function enterFullscreen(el){
@@ -1312,7 +1285,7 @@
       video.src = src;
       video.controls = true;
       video.playsInline = true;
-      video.muted = true; // mobile browsers only allow unattended autoplay when muted
+      video.muted = true;
       video.preload = 'metadata';
       wrap.appendChild(video);
       const fsBtn = document.createElement('button');
@@ -1333,19 +1306,11 @@
       a.innerHTML = `<img src="${thumb}" alt="YouTube video thumbnail" loading="lazy" decoding="async"><div class="yt-play"></div><div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>`;
       wrap.appendChild(a);
     } else if(type === 'gdrive' || type === 'iframe'){
-      // No src yet — it's only attached once this slide becomes active (see
-      // activateSlide/deactivateSlide below). That's what lets us start it
-      // playing automatically on arrival and fully stop it (audio included)
-      // the moment it's no longer showing, without reloading every slide
-      // whenever the gallery is opened.
       const iframe = document.createElement('iframe');
       iframe.dataset.src = src;
       iframe.allow = 'autoplay; fullscreen; encrypted-media';
       iframe.allowFullscreen = true;
       wrap.appendChild(iframe);
-      // Google Drive's own embed already ships play/volume/fullscreen controls
-      // inside the frame, so we don't stack a second fullscreen button on top
-      // of it — that's what was causing the overlapping/buggy-looking controls.
     } else {
       const img = document.createElement('img');
       img.src = src;
@@ -1365,9 +1330,6 @@
     modalTitle.textContent = p.title;
     modalDesc.innerHTML = p.desc;
 
-    // Build every slide ONCE up front (so all images/iframes start loading
-    // immediately and in parallel, instead of being torn down and re-fetched
-    // on every navigation) and toggle visibility from then on.
     slider.innerHTML = '';
     slideEls = currentGallery.map((item, i) => {
       const el = buildSlide(item, i);
@@ -1437,7 +1399,7 @@
     if(video){ video.pause(); }
     const iframe = el.querySelector('iframe[data-src]');
     if(iframe && iframe.getAttribute('src')){
-      iframe.removeAttribute('src'); // fully unloads the embed, stopping playback + audio immediately
+      iframe.removeAttribute('src');
     }
   }
 
@@ -1509,19 +1471,9 @@
     });
   });
 
-  // contact form -> sends email silently in the background via EmailJS
-  // (no mailto: link, so no email app / Gmail / Outlook window ever opens)
-  //
-  // SETUP REQUIRED (one-time, free):
-  // 1. Create an account at https://www.emailjs.com
-  // 2. Add an Email Service (e.g. connect your Gmail) -> copy its "Service ID"
-  // 3. Create an Email Template with variables: {{name}}, {{email}}, {{subject}}, {{message}}
-  //    -> copy its "Template ID"
-  // 4. Go to Account > General -> copy your "Public Key"
-  // 5. Paste all three below where marked.
-  const EMAILJS_PUBLIC_KEY  = 'n0JOc2bLxRFjogk02';   // <-- replace
-  const EMAILJS_SERVICE_ID  = 'service_xxt50s5';   // <-- replace
-  const EMAILJS_TEMPLATE_ID = 'template_m96u99j';  // <-- replace
+  const EMAILJS_PUBLIC_KEY   = 'n0JOc2bLxRFjogk02';
+  const EMAILJS_SERVICE_ID   = 'service_xxt50s5';
+  const EMAILJS_TEMPLATE_ID = 'template_m96u99j';
 
   if (window.emailjs) emailjs.init(EMAILJS_PUBLIC_KEY);
 
