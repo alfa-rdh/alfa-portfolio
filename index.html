@@ -1311,6 +1311,8 @@
     wrap.className = 'modal-slide';
     wrap.dataset.i = i;
 
+    const isMobile = window.innerWidth <= 600;
+
     if(type === 'video'){
       const video = document.createElement('video');
       video.src = src;
@@ -1319,12 +1321,6 @@
       video.muted = true;
       video.preload = 'metadata';
       wrap.appendChild(video);
-      const fsBtn = document.createElement('button');
-      fsBtn.className = 'modal-fullscreen-btn';
-      fsBtn.innerHTML = '⛶';
-      fsBtn.setAttribute('aria-label', 'Fullscreen');
-      fsBtn.addEventListener('click', (e) => { e.stopPropagation(); enterFullscreen(video); });
-      wrap.appendChild(fsBtn);
     } else if(type === 'youtube'){
       const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
       const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
@@ -1337,11 +1333,32 @@
       a.innerHTML = `<img src="${thumb}" alt="YouTube video thumbnail" loading="lazy" decoding="async"><div class="yt-play"></div><div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>`;
       wrap.appendChild(a);
     } else if(type === 'gdrive' || type === 'iframe'){
-      const iframe = document.createElement('iframe');
-      iframe.dataset.src = src;
-      iframe.allow = 'autoplay; fullscreen; encrypted-media';
-      iframe.allowFullscreen = true;
-      wrap.appendChild(iframe);
+      // Pembedaan berdasarkan resolusi layar
+      if(isMobile) {
+        // Di HP: Tampilkan tombol pemicu langsung ke pemutar full Google Drive
+        const gdriveId = getGDriveId(typeof item === 'string' ? item : item.src);
+        const rawUrl = typeof item === 'string' ? item : item.src;
+        const thumbUrl = gdriveId ? `https://drive.google.com/thumbnail?id=${gdriveId}&sz=w1400` : '';
+        
+        const a = document.createElement('a');
+        a.className = 'yt-thumb';
+        a.href = rawUrl;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = `
+          <img src="${thumbUrl}" alt="Video thumbnail" loading="lazy" decoding="async">
+          <div class="yt-play" style="background:#D8431D;"></div>
+          <div class="yt-label mono">▶ PUTAR VIDEO (GOOGLE DRIVE) ↗</div>
+        `;
+        wrap.appendChild(a);
+      } else {
+        // Di Tablet & Desktop: Gunakan iframe bawaan
+        const iframe = document.createElement('iframe');
+        iframe.dataset.src = src;
+        iframe.allow = 'autoplay; fullscreen; encrypted-media';
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
+      }
     } else {
       const img = document.createElement('img');
       img.src = src;
