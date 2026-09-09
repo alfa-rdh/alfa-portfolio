@@ -380,8 +380,12 @@
     width:100%; height:100%; object-fit:contain;
     display:block; background:#000;
   }
+  /* Memastikan iframe Google Drive mengisi penuh wadah 16:9 tanpa menyisa ruang kosong */
   .modal-slide iframe{
-    width:100%; height:100%; border:none; display:block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
     pointer-events:auto;
   }
   /* YouTube clickable thumbnail overlay */
@@ -473,11 +477,15 @@
   .modal-desc a:hover{ opacity:0.75; }
 
   @media (max-width:600px){
-    /* Perbaikan 2: memberikan rasio dan min-height yang pas pada mobile agar pemutar video Google Drive merender penuh */
+    /* Perbaikan 2: memberikan rasio dan min-height yang pas pada mobile agar pemutar video Google Drive merender penuh + Kunci ke rasio 16/9 murni agar ukuran sebelum dan sesudah video diputar konsisten */
     .modal-slider{ 
-      max-height: 320px; 
-      aspect-ratio: 16 / 14;
-      min-height: 320px;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      background: #000;
+      overflow: hidden;
     }
     /* Perbaikan 1: menambah padding-bottom agar teks paling bawah modal dapat dibaca utuh */
     .modal-body{ padding:26px 20px 80px; }
