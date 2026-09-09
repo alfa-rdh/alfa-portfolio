@@ -363,9 +363,10 @@
   .modal-close:hover{ background:#000; }
   .modal-slider{
     position:relative; width:100%;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16/12;
     max-height:380px;
-    overflow:hidden; background:#111;
+    background: #000;
+    overflow: hidden;
     flex-shrink:0;
   }
   .modal-slide{
@@ -480,10 +481,10 @@
     /* Perbaikan 2: memberikan rasio dan min-height yang pas pada mobile agar pemutar video Google Drive merender penuh + Kunci ke rasio 16/9 murni agar ukuran sebelum dan sesudah video diputar konsisten */
     .modal-slider{ 
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16 / 12;
       height: auto;
-      min-height: 0;
-      max-height: none;
+      min-height: 380px;
+      max-height: 380px;
       background: #000;
       overflow: hidden;
     }
