@@ -332,7 +332,7 @@
   .confirm-desc{ font-size:15px; line-height:1.6; color:var(--ink-soft); margin-bottom:26px; }
   .confirm-ok-btn{ width:100%; justify-content:center; }
 
-  /* === MODAL === */
+  /* === MODAL (DESKTOP DEFAULT > 900px) === */
   .modal-overlay{
     position:fixed; inset:0; background:rgba(15,13,11,0.78);
     z-index:200; display:none;
@@ -358,14 +358,13 @@
     background:var(--ink); color:var(--cream);
     font-size:20px; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
-    z-index:210;
+    z-index:300;
   }
   .modal-close:hover{ background:#000; }
   
-  /* WADAH MODAL SLIDER MURNI 16:9 */
   .modal-slider{
     position:relative; width:100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
     max-height:380px;
     background: #000;
     overflow: hidden;
@@ -477,30 +476,6 @@
   .modal-desc a{ color:var(--red); text-decoration:underline; text-underline-offset:2px; }
   .modal-desc a:hover{ opacity:0.75; }
 
-  @media (max-width:600px){
-    /* CSS MOBILE MODAL SLIDER YANG BERSIH */
-    .modal-slider{ 
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      height: auto;
-      min-height: 0;
-      max-height: none;
-      background: #000;
-      overflow: hidden;
-    }
-
-    .modal-slide iframe {
-      width: 100% !important;
-      height: 100% !important;
-      transform: none !important;
-      border: none;
-      display: block;
-    }
-
-    .modal-body{ padding:26px 20px 80px; }
-    .modal-title{ font-size:28px; }
-  }
-
   /* === ABOUT (dark) === */
   .about-dark{
     background:var(--ink); color:var(--cream);
@@ -573,7 +548,7 @@
   .footer-links a{ font-size:12px; letter-spacing:0.1em; font-weight:500; color:rgba(242,238,230,0.8); }
   .footer-links a:hover{ color:var(--cream); }
 
-  /* ===== TABLET / MOBILE (<=900px) ===== */
+  /* ===== TABLET RESPONSIVE (601px - 900px) ===== */
   @media (max-width:900px){
     .nav-toggle{ display:flex; }
     .nav-links{
@@ -606,9 +581,45 @@
     .contact-grid, .two-col{ grid-template-columns:1fr; }
     .work-grid{ grid-template-columns:1fr; }
     .footer-top{ flex-direction:column; align-items:flex-start; gap:24px; }
+
+    .modal-box {
+      max-width: 90%;
+      max-height: 85vh;
+    }
+    .modal-slider {
+      aspect-ratio: 16 / 9;
+      max-height: 340px;
+    }
   }
 
-  /* ===== SMALL PHONES (<=480px) ===== */
+  /* ===== MOBILE RESPONSIVE (<= 600px) ===== */
+  @media (max-width:600px){
+    /* 
+      [PERBAIKAN OVERLAY BERTUMPUK GOOGLE DRIVE]:
+      Mengubah aspect-ratio menjadi 16/10 dan min-height 230px untuk memberikan 
+      ruang napas vertikal ekstra agar UI Google Drive tidak saling berbenturan.
+    */
+    .modal-slider{ 
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 230px;
+      max-height: none;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .modal-slide iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
+      display: block;
+    }
+
+    .modal-body{ padding:24px 20px 80px; }
+    .modal-title{ font-size:26px; }
+  }
+
+  /* ===== SMALL PHONES RESPONSIVE (<= 480px) ===== */
   @media (max-width:480px){
     .nav{ padding-top:16px; padding-bottom:16px; }
     .logo{ font-size:11px; }
@@ -637,8 +648,8 @@
     .elsewhere a{ font-size:17px; }
     .footer-links{ gap:16px; }
     .footer-links a{ font-size:11px; }
+
     .modal-overlay{ padding:0; align-items:stretch; }
-    
     .modal-box{ 
       margin-bottom:0; 
       height:100vh;
@@ -647,7 +658,11 @@
       max-height:100dvh; 
       border:none; 
     }
-    .modal-body{ padding:26px 20px 80px; }
+    .modal-close {
+      top: 10px;
+      right: 10px;
+      z-index: 300;
+    }
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1156,13 +1171,6 @@
     return m ? m[1] : null;
   }
 
-  /* 
-    ========================================================================
-    [PERBAIKAN UTAMA 1]: Mengarahkan link video Google Drive langsung ke URL 
-    direct stream/download (drive.google.com/uc?export=download&id=ID)
-    agar dapat diputar secara native di tag <video> tanpa iframe Google Drive.
-    ========================================================================
-  */
   function getMediaSrc(item, forceType){
     let src = typeof item === 'string' ? item : item.src;
     const type = forceType || getMediaType(item);
@@ -1296,13 +1304,6 @@
     if(req) req.call(el);
   }
 
-  /* 
-    ========================================================================
-    [PERBAIKAN UTAMA 2]: Menangani tipe 'gdrive' menggunakan tag <video> 
-    native HTML5. Browser HP akan merender pemutar video bawaan yang bersih,
-    responsif, tanpa overlay raksasa Google Drive yang menumpuk.
-    ========================================================================
-  */
   function buildSlide(item, i){
     const type = getMediaType(item);
     const src = getMediaSrc(item, type);
@@ -1318,6 +1319,12 @@
       video.muted = true;
       video.preload = 'metadata';
       wrap.appendChild(video);
+      const fsBtn = document.createElement('button');
+      fsBtn.className = 'modal-fullscreen-btn';
+      fsBtn.innerHTML = '⛶';
+      fsBtn.setAttribute('aria-label', 'Fullscreen');
+      fsBtn.addEventListener('click', (e) => { e.stopPropagation(); enterFullscreen(video); });
+      wrap.appendChild(fsBtn);
     } else if(type === 'youtube'){
       const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
       const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
