@@ -362,7 +362,7 @@
   }
   .modal-close:hover{ background:#000; }
   
-  /* KODE DESKTOP UTAMA UNTUK .modal-slider */
+  /* [DI-PERBAIKI]: KEMBALIKAN KE ASPECT-RATIO 16/9 UNTUK DESKTOP */
   .modal-slider{
     position:relative; width:100%;
     aspect-ratio: 16/9;
@@ -480,9 +480,8 @@
   @media (max-width:600px){
     /* 
       ========================================================================
-      [TANDA PERBAIKAN]: KODE DI-DISABLE DI BAWAH INI KARENA MEMAKSA WADAH 
-      MENJADI 380PX TINGGI PADA LAYAR MOBILE SEHINGGA PEMUTAR VIDEO GOOGLE DRIVE 
-      MERENDER 2 LAPIS KONTROL BERTIMPUK (DOUBLE OVERLAY) SEPERTI PADA FOTO.
+      [DISABLE KODE LAMA]: Dihapus/diberi komentar karena memicu bug tombol 
+      bertumpuk raksasa dari Google Drive Mobile UI.
       ========================================================================
     */
     /*
@@ -497,7 +496,7 @@
     }
     */
 
-    /* [KODE BARU YANG DIPERBAIKI]: Mengunci rasio 16:9 murni tanpa memaksa tinggi px */
+    /* [KODE BARU YANG DIPERBAIKI]: WADAH MODAL SLIDER MOBILE */
     .modal-slider{ 
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -506,6 +505,19 @@
       max-height: none;
       background: #000;
       overflow: hidden;
+      position: relative;
+    }
+
+    /* 
+      [TRIK PERBAIKAN UTAMA]: Memaksa iframe Google Drive merender tampilan Desktop (480px x 270px)
+      kemudian di-scale 0.75x agar pas di layar HP tanpa memicu tombol UI mobile raksasa yang bertumpuk.
+    */
+    .modal-slide iframe {
+      width: 133.33% !important;
+      height: 133.33% !important;
+      transform: scale(0.75);
+      transform-origin: 0 0;
+      border: none;
     }
 
     .modal-body{ padding:26px 20px 80px; }
