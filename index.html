@@ -361,9 +361,11 @@
     z-index:210;
   }
   .modal-close:hover{ background:#000; }
+  
+  /* KODE DESKTOP UTAMA UNTUK .modal-slider */
   .modal-slider{
     position:relative; width:100%;
-    aspect-ratio: 16/12;
+    aspect-ratio: 16/9;
     max-height:380px;
     background: #000;
     overflow: hidden;
@@ -381,7 +383,6 @@
     width:100%; height:100%; object-fit:contain;
     display:block; background:#000;
   }
-  /* Memastikan iframe Google Drive mengisi penuh wadah 16:9 tanpa menyisa ruang kosong */
   .modal-slide iframe{
     width: 100%;
     height: 100%;
@@ -389,7 +390,6 @@
     display: block;
     pointer-events:auto;
   }
-  /* YouTube clickable thumbnail overlay */
   .yt-thumb{
     position:relative; width:100%; height:100%;
     cursor:pointer; display:block; background:#000;
@@ -478,7 +478,14 @@
   .modal-desc a:hover{ opacity:0.75; }
 
   @media (max-width:600px){
-    /* Perbaikan 2: memberikan rasio dan min-height yang pas pada mobile agar pemutar video Google Drive merender penuh + Kunci ke rasio 16/9 murni agar ukuran sebelum dan sesudah video diputar konsisten */
+    /* 
+      ========================================================================
+      [TANDA PERBAIKAN]: KODE DI-DISABLE DI BAWAH INI KARENA MEMAKSA WADAH 
+      MENJADI 380PX TINGGI PADA LAYAR MOBILE SEHINGGA PEMUTAR VIDEO GOOGLE DRIVE 
+      MERENDER 2 LAPIS KONTROL BERTIMPUK (DOUBLE OVERLAY) SEPERTI PADA FOTO.
+      ========================================================================
+    */
+    /*
     .modal-slider{ 
       width: 100%;
       aspect-ratio: 16 / 12;
@@ -488,7 +495,19 @@
       background: #000;
       overflow: hidden;
     }
-    /* Perbaikan 1: menambah padding-bottom agar teks paling bawah modal dapat dibaca utuh */
+    */
+
+    /* [KODE BARU YANG DIPERBAIKI]: Mengunci rasio 16:9 murni tanpa memaksa tinggi px */
+    .modal-slider{ 
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      background: #000;
+      overflow: hidden;
+    }
+
     .modal-body{ padding:26px 20px 80px; }
     .modal-title{ font-size:28px; }
   }
@@ -631,7 +650,6 @@
     .footer-links a{ font-size:11px; }
     .modal-overlay{ padding:0; align-items:stretch; }
     
-    /* Perbaikan 1: Menggunakan 100dvh agar modal benar-benar pas dengan tinggi layar ponsel yang aktif */
     .modal-box{ 
       margin-bottom:0; 
       height:100vh;
