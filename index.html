@@ -362,10 +362,10 @@
   }
   .modal-close:hover{ background:#000; }
   
-  /* [DI-PERBAIKI]: KEMBALIKAN KE ASPECT-RATIO 16/9 UNTUK DESKTOP */
+  /* WADAH MODAL SLIDER MURNI 16:9 */
   .modal-slider{
     position:relative; width:100%;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 9;
     max-height:380px;
     background: #000;
     overflow: hidden;
@@ -478,25 +478,7 @@
   .modal-desc a:hover{ opacity:0.75; }
 
   @media (max-width:600px){
-    /* 
-      ========================================================================
-      [DISABLE KODE LAMA]: Dihapus/diberi komentar karena memicu bug tombol 
-      bertumpuk raksasa dari Google Drive Mobile UI.
-      ========================================================================
-    */
-    /*
-    .modal-slider{ 
-      width: 100%;
-      aspect-ratio: 16 / 12;
-      height: auto;
-      min-height: 380px;
-      max-height: 380px;
-      background: #000;
-      overflow: hidden;
-    }
-    */
-
-    /* [KODE BARU YANG DIPERBAIKI]: WADAH MODAL SLIDER MOBILE */
+    /* CSS MOBILE MODAL SLIDER YANG BERSIH */
     .modal-slider{ 
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -505,19 +487,6 @@
       max-height: none;
       background: #000;
       overflow: hidden;
-      position: relative;
-    }
-
-    /* 
-      [TRIK PERBAIKAN UTAMA]: Memaksa iframe Google Drive merender tampilan Desktop (480px x 270px)
-      kemudian di-scale 0.75x agar pas di layar HP tanpa memicu tombol UI mobile raksasa yang bertumpuk.
-    */
-    .modal-slide iframe {
-      width: 133.33% !important;
-      height: 133.33% !important;
-      transform: scale(0.75);
-      transform-origin: 0 0;
-      border: none;
     }
 
     .modal-body{ padding:26px 20px 80px; }
@@ -1179,6 +1148,13 @@
     return m ? m[1] : null;
   }
 
+  /* 
+    ========================================================================
+    [PERBAIKAN UTAMA 1]: Mengarahkan link video Google Drive langsung ke URL 
+    direct stream/download (drive.google.com/uc?export=download&id=ID)
+    agar dapat diputar secara native di tag <video> tanpa iframe Google Drive.
+    ========================================================================
+  */
   function getMediaSrc(item, forceType){
     let src = typeof item === 'string' ? item : item.src;
     const type = forceType || getMediaType(item);
@@ -1188,7 +1164,7 @@
         if(type === 'image'){
           return `https://drive.google.com/thumbnail?id=${id}&sz=w1400`;
         } else {
-          return `https://drive.google.com/file/d/${id}/preview`;
+          return `https://drive.google.com/uc?export=download&id=${id}`;
         }
       }
     }
@@ -1312,6 +1288,13 @@
     if(req) req.call(el);
   }
 
+  /* 
+    ========================================================================
+    [PERBAIKAN UTAMA 2]: Menangani tipe 'gdrive' menggunakan tag <video> 
+    native HTML5. Browser HP akan merender pemutar video bawaan yang bersih,
+    responsif, tanpa overlay raksasa Google Drive yang menumpuk.
+    ========================================================================
+  */
   function buildSlide(item, i){
     const type = getMediaType(item);
     const src = getMediaSrc(item, type);
@@ -1319,7 +1302,7 @@
     wrap.className = 'modal-slide';
     wrap.dataset.i = i;
 
-    if(type === 'video'){
+    if(type === 'video' || type === 'gdrive'){
       const video = document.createElement('video');
       video.src = src;
       video.controls = true;
@@ -1344,7 +1327,7 @@
       a.rel = 'noopener';
       a.innerHTML = `<img src="${thumb}" alt="YouTube video thumbnail" loading="lazy" decoding="async"><div class="yt-play"></div><div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>`;
       wrap.appendChild(a);
-    } else if(type === 'gdrive' || type === 'iframe'){
+    } else if(type === 'iframe'){
       const iframe = document.createElement('iframe');
       iframe.dataset.src = src;
       iframe.allow = 'autoplay; fullscreen; encrypted-media';
