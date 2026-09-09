@@ -489,6 +489,14 @@
       overflow: hidden;
     }
 
+    .modal-slide iframe {
+      width: 100% !important;
+      height: 100% !important;
+      transform: none !important;
+      border: none;
+      display: block;
+    }
+
     .modal-body{ padding:26px 20px 80px; }
     .modal-title{ font-size:28px; }
   }
@@ -1164,7 +1172,7 @@
         if(type === 'image'){
           return `https://drive.google.com/thumbnail?id=${id}&sz=w1400`;
         } else {
-          return `https://drive.google.com/uc?export=download&id=${id}`;
+          return `https://drive.google.com/file/d/${id}/preview`;
         }
       }
     }
@@ -1302,7 +1310,7 @@
     wrap.className = 'modal-slide';
     wrap.dataset.i = i;
 
-    if(type === 'video' || type === 'gdrive'){
+    if(type === 'video'){
       const video = document.createElement('video');
       video.src = src;
       video.controls = true;
@@ -1310,12 +1318,6 @@
       video.muted = true;
       video.preload = 'metadata';
       wrap.appendChild(video);
-      const fsBtn = document.createElement('button');
-      fsBtn.className = 'modal-fullscreen-btn';
-      fsBtn.innerHTML = '⛶';
-      fsBtn.setAttribute('aria-label', 'Fullscreen');
-      fsBtn.addEventListener('click', (e) => { e.stopPropagation(); enterFullscreen(video); });
-      wrap.appendChild(fsBtn);
     } else if(type === 'youtube'){
       const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
       const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
@@ -1327,7 +1329,7 @@
       a.rel = 'noopener';
       a.innerHTML = `<img src="${thumb}" alt="YouTube video thumbnail" loading="lazy" decoding="async"><div class="yt-play"></div><div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>`;
       wrap.appendChild(a);
-    } else if(type === 'iframe'){
+    } else if(type === 'gdrive' || type === 'iframe'){
       const iframe = document.createElement('iframe');
       iframe.dataset.src = src;
       iframe.allow = 'autoplay; fullscreen; encrypted-media';
