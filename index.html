@@ -7,6 +7,9 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://drive.google.com">
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link rel="dns-prefetch" href="https://drive.google.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -351,15 +354,16 @@
     max-width:920px; width:100%;
     border:1px solid var(--ink);
     margin-bottom:50px;
+    overflow:hidden;
   }
   .modal-close{
-    position:absolute; top:16px; right:16px;
+    position:fixed; top:16px; right:16px;
     width:42px; height:42px;
     border:1px solid var(--ink);
     background:var(--ink); color:var(--cream);
     font-size:20px; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
-    z-index:5;
+    z-index:210;
   }
   .modal-close:hover{ background:#000; }
   .modal-slider{
@@ -367,13 +371,16 @@
     aspect-ratio: 16/9;
     max-height:380px;
     overflow:hidden; background:#111;
+    flex-shrink:0;
   }
+  .modal-slider.is-embed{ aspect-ratio: 4/3; max-height:420px; }
   .modal-slide{
     position:absolute; inset:0;
-    opacity:0; transition: opacity .35s ease;
+    opacity:0; visibility:hidden;
+    transition: opacity .35s ease;
     z-index:1;
   }
-  .modal-slide.active{ opacity:1; z-index:2; }
+  .modal-slide.active{ opacity:1; visibility:visible; z-index:2; }
   .modal-slide img{ width:100%; height:100%; object-fit:contain; background:#111; }
   .modal-slide video{
     width:100%; height:100%; object-fit:contain;
@@ -424,35 +431,45 @@
     border-color:transparent transparent transparent #F2EEE6;
     margin-left:4px;
   }
-  .modal-nav{
-    position:absolute; top:50%; transform:translateY(-50%);
-    width:42px; height:42px;
-    background:rgba(242,238,230,0.9); color:var(--ink);
-    border:none; cursor:pointer; font-size:16px;
+  /* fullscreen button sits on the slide itself, top-left so it never collides
+     with Google Drive's own top-right controls */
+  .modal-fullscreen-btn{
+    position:absolute; top:10px; left:10px; z-index:6;
+    width:36px; height:36px; border:none; border-radius:4px;
+    background:rgba(23,21,19,0.65); color:var(--cream);
     display:flex; align-items:center; justify-content:center;
-    z-index:4;
+    cursor:pointer; font-size:16px; line-height:1;
   }
-  .modal-nav:hover{ background:var(--cream); }
-  .modal-prev{ left:16px; }
-  .modal-next{ right:16px; }
-  .modal-dots{
-    position:absolute; bottom:16px; left:0; right:0;
-    display:flex; justify-content:center; gap:8px; z-index:4;
+  .modal-fullscreen-btn:hover{ background:rgba(23,21,19,0.88); }
+  /* controls now live BELOW the media, never overlapping it or an embed's own UI */
+  .modal-controls-below{
+    display:flex; align-items:center; justify-content:center;
+    gap:14px; padding:12px 14px; background:#0c0b0a;
+    flex-shrink:0;
   }
+  .modal-controls-below:empty{ display:none; }
+  .modal-nav-inline{
+    width:36px; height:36px; border:none; border-radius:4px;
+    background:rgba(242,238,230,0.12); color:var(--cream);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:15px; flex-shrink:0; transition: background .2s;
+  }
+  .modal-nav-inline:hover{ background:rgba(242,238,230,0.24); }
+  .modal-dots-inline{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
   .modal-dot{
-    min-width:7px; height:7px; border-radius:30px;
-    background:rgba(242,238,230,0.5); cursor:pointer;
-    font-size:0; line-height:7px;
+    min-width:8px; height:8px; border-radius:30px;
+    background:rgba(242,238,230,0.35); cursor:pointer;
+    font-size:0; line-height:8px; border:none;
     transition: all .2s;
   }
-  .modal-dot.active{ background:var(--cream); }
-  .modal-dot[title=" "]{
-    width:auto; padding:0 6px; font-size:8px; color:rgba(242,238,230,0.8);
+  .modal-dot.active{ background:var(--cream); width:20px; }
+  .modal-dot[data-embed="1"]{
+    width:auto; min-width:20px; padding:0 7px; font-size:9px; color:rgba(242,238,230,0.85);
     display:flex; align-items:center; height:18px; border-radius:10px;
-    font-family:'Inter',sans-serif;
+    font-family:'Inter',sans-serif; background:rgba(242,238,230,0.16);
   }
-  .modal-dot[title=" "].active{ color:var(--ink); }
-  .modal-body{ padding:48px 50px 56px; min-height:380px; display:flex; flex-direction:column; justify-content:center; }
+  .modal-dot[data-embed="1"].active{ color:var(--ink); background:var(--cream); }
+  .modal-body{ padding:40px 50px 56px; display:flex; flex-direction:column; justify-content:flex-start; }
   .modal-meta{
     font-size:12px; color:darkblue; font-weight:500; letter-spacing:0.08em;
     margin-bottom:16px;
@@ -464,7 +481,8 @@
 
   @media (max-width:600px){
     .modal-slider{ max-height:none; }
-    .modal-body{ padding:30px 24px 36px; min-height:0; }
+    .modal-slider.is-embed{ max-height:none; }
+    .modal-body{ padding:26px 20px 40px; }
     .modal-title{ font-size:28px; }
   }
 
@@ -607,7 +625,6 @@
     .modal-overlay{ padding:0; align-items:stretch; }
     .modal-box{ margin-bottom:0; min-height:100vh; border:none; }
     .modal-body{ padding:26px 20px 40px; }
-    .modal-nav{ width:36px; height:36px; }
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -636,7 +653,7 @@
     <div class="eyebrow mono">PORTFOLIO &middot; 2023 — 2026</div>
     <!-- Replace src with your portrait URL (Google Drive: drive.google.com/thumbnail?id=FILE_ID&sz=w400) -->
     <div class="hero-portrait">
-      <img src="portrait/Ridho Alfarizi_Hero.jpg" alt="Portrait">
+      <img src="portrait/Ridho Alfarizi_Hero.jpg" alt="Portrait" fetchpriority="high" decoding="async">
     </div>
   </div>
   <div class="hero-side">
@@ -736,6 +753,7 @@
   <div class="modal-box" style="position:relative;">
     <button class="modal-close" id="modal-close">&times;</button>
     <div class="modal-slider" id="modal-slider"></div>
+    <div class="modal-controls-below" id="modal-controls-below"></div>
     <div class="modal-body">
       <div class="modal-meta mono" id="modal-meta"></div>
       <h3 class="modal-title serif" id="modal-title"></h3>
@@ -758,7 +776,7 @@
     </div>
     <!-- Replace src with your portrait URL (Google Drive: drive.google.com/thumbnail?id=FILE_ID&sz=w400) -->
     <div class="about-portrait">
-      <img src="portrait/Ridho Alfarizi_About.jpg" alt="Portrait">
+      <img src="portrait/Ridho Alfarizi_About.jpg" alt="Portrait" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -1123,23 +1141,6 @@
       desc: "This is a video I've made for Atsiri Permai's citizen on silaturahmi event at Nicole's River Park."
     }
   ];
- // {
-   // cat: "webdev",
-   // catLabel: "Web Development",
-   // year: "2026",
-   // title: "MoneyTRACKER — Solo Project",
-   // cover: "https://images.unsplash.com/photo-1611162617213-7d7f5b1f3b4f?w=900&q=80",
-   // gallery: [
-     //  { type: "image", src: "https://drive.google.com/file/d/1G0JYW9Yu9bVjwlQV5CNpnOVA0yxCdnK8/view" },
-     //  { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4" },
-     //  { type: "youtube", src: "https://www.youtube.com/watch?v=ysSxxIqKNN0" },
-     //  { type: "gdrive", src: "https://drive.google.com/file/d/1KjXLHmiBG-Tuf5JtfoOCuESSolcSxN11/view?usp=sharing" },
-     //  { type: "image", src: "https://drive.google.com/file/d/1G0JYW9Yu9bVjwlQV5CNpnOVA0yxCdnK8/view" }
-     // "https://images.unsplash.com/photo-1611162617213-7d7f5b1f3b4f?w=1400&q=80",
-     // "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1400&q=80"
-   // ],
-   // desc: "A short-form documentary edit following three night-shift workers across a single city. Structured as a triptych, cutting between subjects to build a single continuous emotional arc across a 12-minute runtime."
- // }
 
   const pills = document.querySelectorAll('.filter-pill');
   const grid = document.getElementById('work-grid');
@@ -1192,13 +1193,14 @@
   const accordionLabel = document.getElementById('accordion-label');
   const accordionIcon = document.getElementById('accordion-icon');
 
-  function buildCard(p){
+  function buildCard(p, priority){
     const coverType = getMediaType(p.cover);
     const coverSrc = getMediaSrc(p.cover, coverType);
     const coverIsVideo = coverType === 'video';
+    const loadAttrs = priority ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
     const thumb = coverIsVideo
       ? `<video src="${coverSrc}" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video><div class="play-badge"></div>`
-      : `<img src="${coverSrc}" alt="${p.title}">`;
+      : `<img src="${coverSrc}" alt="${p.title}" ${loadAttrs} decoding="async">`;
     return `<button class="work-card" data-index="${projects.indexOf(p)}">
         <div class="work-card-img" style="position:relative;">${thumb}</div>
         <div class="work-card-caption">
@@ -1227,8 +1229,8 @@
     const hidden = list.slice(VISIBLE_LIMIT);
 
     grid.innerHTML = [
-      ...visible.map(p => buildCard(p)),
-      ...hidden.map(p => `<div class="extra-card" style="display:none;">${buildCard(p)}</div>`)
+      ...visible.map(p => buildCard(p, true)),
+      ...hidden.map(p => `<div class="extra-card" style="display:none;">${buildCard(p, false)}</div>`)
     ].join('');
 
     bindCardClicks();
@@ -1263,15 +1265,91 @@
 
   renderGrid('all');
 
+  // Preload the covers of the first VISIBLE_LIMIT projects shown on page load,
+  // so they don't have to be requested one-by-one after the page finishes parsing.
+  (function preloadInitialCovers(){
+    projects.slice(0, VISIBLE_LIMIT).forEach(p => {
+      const type = getMediaType(p.cover);
+      if(type !== 'image') return;
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = getMediaSrc(p.cover, type);
+      document.head.appendChild(link);
+    });
+  })();
+
   // ===== MODAL =====
   const overlay = document.getElementById('modal-overlay');
   const slider = document.getElementById('modal-slider');
-  const dotsWrap = document.getElementById('modal-dots');
+  const controlsBelow = document.getElementById('modal-controls-below');
   const modalMeta = document.getElementById('modal-meta');
   const modalTitle = document.getElementById('modal-title');
   const modalDesc = document.getElementById('modal-desc');
   let currentSlide = 0;
   let currentGallery = [];
+  let slideEls = [];   // built once per modal open, reused on navigation
+  let dotEls = [];
+
+  function enterFullscreen(el){
+    const req = el.requestFullscreen || el.webkitRequestFullscreen || el.webkitEnterFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if(req) req.call(el);
+  }
+
+  function buildSlide(item, i){
+    const type = getMediaType(item);
+    const src = getMediaSrc(item, type);
+    const wrap = document.createElement('div');
+    wrap.className = 'modal-slide';
+    wrap.dataset.i = i;
+
+    if(type === 'video'){
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      wrap.appendChild(video);
+      const fsBtn = document.createElement('button');
+      fsBtn.className = 'modal-fullscreen-btn';
+      fsBtn.innerHTML = '⛶';
+      fsBtn.setAttribute('aria-label', 'Fullscreen');
+      fsBtn.addEventListener('click', (e) => { e.stopPropagation(); enterFullscreen(video); });
+      wrap.appendChild(fsBtn);
+    } else if(type === 'youtube'){
+      const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
+      const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
+      const watchUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : src;
+      const a = document.createElement('a');
+      a.className = 'yt-thumb';
+      a.href = watchUrl;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.innerHTML = `<img src="${thumb}" alt="YouTube video thumbnail" loading="lazy" decoding="async"><div class="yt-play"></div><div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>`;
+      wrap.appendChild(a);
+    } else if(type === 'gdrive' || type === 'iframe'){
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.allow = 'autoplay; fullscreen; encrypted-media';
+      iframe.allowFullscreen = true;
+      iframe.loading = 'lazy';
+      wrap.appendChild(iframe);
+      const fsBtn = document.createElement('button');
+      fsBtn.className = 'modal-fullscreen-btn';
+      fsBtn.innerHTML = '⛶';
+      fsBtn.setAttribute('aria-label', 'Fullscreen');
+      fsBtn.addEventListener('click', (e) => { e.stopPropagation(); enterFullscreen(iframe); });
+      wrap.appendChild(fsBtn);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Project image ${i + 1}`;
+      img.loading = 'eager';
+      img.decoding = 'async';
+      wrap.appendChild(img);
+    }
+    return wrap;
+  }
 
   function openModal(index){
     const p = projects[index];
@@ -1280,79 +1358,94 @@
     modalMeta.textContent = `${Array.isArray(p.catLabel) ? p.catLabel.join(' · ') : p.catLabel} · ${p.year}`;
     modalTitle.textContent = p.title;
     modalDesc.innerHTML = p.desc;
-    renderSlides();
+
+    // Build every slide ONCE up front (so all images/iframes start loading
+    // immediately and in parallel, instead of being torn down and re-fetched
+    // on every navigation) and toggle visibility from then on.
+    slider.innerHTML = '';
+    slideEls = currentGallery.map((item, i) => {
+      const el = buildSlide(item, i);
+      slider.appendChild(el);
+      return el;
+    });
+
+    const firstType = getMediaType(currentGallery[0]);
+    slider.classList.toggle('is-embed', firstType === 'gdrive' || firstType === 'iframe');
+
+    buildControlsBelow();
+    updateActiveSlide();
+
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 
-  function pauseActiveVideo(){
-    // Used when switching slides — pauses video, rebuilds slide via renderSlides after
-    const vid = slider.querySelector('.modal-slide.active video');
-    if(vid) vid.pause();
-    const iframe = slider.querySelector('.modal-slide.active iframe');
-    if(iframe){ const s = iframe.src; iframe.src = ''; iframe.src = s; }
-  }
+  function buildControlsBelow(){
+    controlsBelow.innerHTML = '';
+    if(currentGallery.length <= 1) return;
 
-  function stopAllMedia(){
-    // Used when closing modal — hard stops everything, no restore needed
-    const vid = slider.querySelector('video');
-    if(vid) vid.pause();
-    slider.querySelectorAll('iframe').forEach(f => f.src = '');
-  }
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'modal-nav-inline';
+    prevBtn.innerHTML = '&larr;';
+    prevBtn.setAttribute('aria-label', 'Previous');
+    prevBtn.addEventListener('click', () => changeSlide(-1));
 
-  function renderSlides(){
-    const slides = currentGallery.map((item, i) => {
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'modal-dots-inline';
+    dotEls = currentGallery.map((item, i) => {
       const type = getMediaType(item);
-      const src = getMediaSrc(item, type);
-      let media;
-      if(type === 'video'){
-        media = `<video src="${src}" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;background:#000;"></video>`;
-      } else if(type === 'youtube'){
-        const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
-        const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
-        const watchUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : src;
-        media = `
-          <a class="yt-thumb" href="${watchUrl}" target="_blank" rel="noopener">
-            <img src="${thumb}" alt="YouTube video thumbnail">
-            <div class="yt-play"></div>
-            <div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>
-          </a>`;
-      } else if(type === 'gdrive' || type === 'iframe'){
-        const autoplay = i === currentSlide ? (src.includes('?') ? '&autoplay=1' : '?autoplay=1') : '';
-        media = `<iframe src="${src}${autoplay}" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;display:block;pointer-events:auto;"></iframe>`;
-      } else {
-        media = `<img src="${src}" alt="Project image ${i+1}">`;
-      }
-      return `<div class="modal-slide ${i === currentSlide ? 'active' : ''}" data-i="${i}">${media}</div>`;
-    }).join('');
-
-    const navHtml = `
-      <button class="modal-nav modal-prev" id="modal-prev">&larr;</button>
-      <button class="modal-nav modal-next" id="modal-next">&rarr;</button>
-      <div class="modal-dots" id="modal-dots">
-        ${currentGallery.map((item, i) => {
-          const type = getMediaType(item);
-          const icon = (type === 'video' || type === 'gdrive' || type === 'iframe' || type === 'youtube') ? '▶' : '';
-          return `<div class="modal-dot ${i === currentSlide ? 'active' : ''}" data-i="${i}" title="${icon}">${icon}</div>`;
-        }).join('')}
-      </div>`;
-
-    slider.innerHTML = slides + navHtml;
-    document.getElementById('modal-prev').addEventListener('click', () => changeSlide(-1));
-    document.getElementById('modal-next').addEventListener('click', () => changeSlide(1));
-    document.querySelectorAll('.modal-dot').forEach(dot => {
-      dot.addEventListener('click', () => {
-        pauseActiveVideo();
-        currentSlide = parseInt(dot.dataset.i);
-        renderSlides();
-      });
+      const isEmbed = (type === 'video' || type === 'gdrive' || type === 'iframe' || type === 'youtube');
+      const dot = document.createElement('button');
+      dot.className = 'modal-dot';
+      dot.dataset.i = i;
+      if(isEmbed){ dot.dataset.embed = '1'; dot.textContent = '▶'; }
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsWrap.appendChild(dot);
+      return dot;
     });
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'modal-nav-inline';
+    nextBtn.innerHTML = '&rarr;';
+    nextBtn.setAttribute('aria-label', 'Next');
+    nextBtn.addEventListener('click', () => changeSlide(1));
+
+    controlsBelow.appendChild(prevBtn);
+    controlsBelow.appendChild(dotsWrap);
+    controlsBelow.appendChild(nextBtn);
+  }
+
+  function pauseSlideMedia(el){
+    if(!el) return;
+    const vid = el.querySelector('video');
+    if(vid) vid.pause();
+  }
+
+  function updateActiveSlide(){
+    slideEls.forEach((el, i) => el.classList.toggle('active', i === currentSlide));
+    dotEls.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+    const activeType = getMediaType(currentGallery[currentSlide]);
+    slider.classList.toggle('is-embed', activeType === 'gdrive' || activeType === 'iframe');
+  }
+
+  function goToSlide(i){
+    pauseSlideMedia(slideEls[currentSlide]);
+    currentSlide = i;
+    updateActiveSlide();
   }
 
   function changeSlide(dir){
-    pauseActiveVideo();
+    pauseSlideMedia(slideEls[currentSlide]);
     currentSlide = (currentSlide + dir + currentGallery.length) % currentGallery.length;
-    renderSlides();
+    updateActiveSlide();
+  }
+
+  function stopAllMedia(){
+    slideEls.forEach(el => {
+      const vid = el.querySelector('video');
+      if(vid) vid.pause();
+      const iframe = el.querySelector('iframe');
+      if(iframe) iframe.src = iframe.src; // hard-stop any playing embed
+    });
   }
 
   function closeModal(){
