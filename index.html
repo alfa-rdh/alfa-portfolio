@@ -332,7 +332,7 @@
   .confirm-desc{ font-size:15px; line-height:1.6; color:var(--ink-soft); margin-bottom:26px; }
   .confirm-ok-btn{ width:100%; justify-content:center; }
 
-  /* === MODAL (DESKTOP DEFAULT > 900px) === */
+  /* === MODAL === */
   .modal-overlay{
     position:fixed; inset:0; background:rgba(15,13,11,0.78);
     z-index:200; display:none;
@@ -389,30 +389,7 @@
     display: block;
     pointer-events:auto;
   }
-  .yt-thumb{
-    position:relative; width:100%; height:100%;
-    cursor:pointer; display:block; background:#000;
-    text-decoration:none;
-  }
-  .yt-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .yt-thumb .yt-play{
-    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-    width:68px; height:48px; background:#FF0000; border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    transition: background .2s, transform .2s;
-  }
-  .yt-thumb:hover .yt-play{ background:#cc0000; transform:translate(-50%,-50%) scale(1.08); }
-  .yt-thumb .yt-play::after{
-    content:''; width:0; height:0;
-    border-style:solid; border-width:10px 0 10px 20px;
-    border-color:transparent transparent transparent #fff;
-    margin-left:4px;
-  }
-  .yt-label{
-    position:absolute; bottom:14px; left:0; right:0; text-align:center;
-    color:rgba(255,255,255,0.85); font-size:13px; font-family:'JetBrains Mono',monospace;
-    letter-spacing:0.06em;
-  }
+
   .play-badge{
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     width:52px; height:52px; border-radius:50%;
@@ -594,15 +571,11 @@
 
   /* ===== MOBILE RESPONSIVE (<= 600px) ===== */
   @media (max-width:600px){
-    /* 
-      [PERBAIKAN OVERLAY BERTUMPUK GOOGLE DRIVE]:
-      Mengubah aspect-ratio menjadi 16/10 dan min-height 230px untuk memberikan 
-      ruang napas vertikal ekstra agar UI Google Drive tidak saling berbenturan.
-    */
     .modal-slider{ 
       width: 100%;
-      aspect-ratio: 16 / 10;
-      min-height: 230px;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      min-height: 0;
       max-height: none;
       background: #000;
       overflow: hidden;
@@ -895,6 +868,7 @@
 
 <script>
   // ===== PROJECT DATA =====
+  // KET: Anda dapat menggunakan tipe "youtube", "video" (file mp4/webm upload langsung), atau "gdrive".
   const projects = [
     {
       cat: "graphic",
@@ -1076,7 +1050,7 @@
       title: "Milba - Air Conditioner Difference",
       cover: { type: "image", src: "mg/mgmilbabeda/mgmilbabedatitle.png" },
       gallery: [
-        { type: "gdrive", src: "https://drive.google.com/file/d/1gNFcrp8ic0rc8B8fjPp1JMCbAmDtrY1g/view" }
+        { type: "youtube", src: "https://www.youtube.com/watch?v=kqEKsbXXjgE" }
       ],
       desc: "This is a motion graphic version that I made for an air conditioner cleaning services PT. MILBA. The motion graphic explains what are the differences between house air conditioner and company air conditioner."
     },
@@ -1087,7 +1061,7 @@
       title: "Milba - Don't Let Your Air Conditioner Get Wasted",
       cover: { type: "image", src: "mg/mgmilbajangan/mgmilbajangantitle.png" },
       gallery: [
-        { type: "gdrive", src: "https://drive.google.com/file/d/1I_kaFb6G3E1lqSMlEBUHFfeY0Wa-H7aG/view" }
+        { type: "youtube", src: "https://www.youtube.com/watch?v=vHNhqMEGOAE" }
       ],
       desc: "This is a motion graphic version that I made for an air conditioner cleaning services PT. MILBA. The motion graphic explains how to maximized your air conditioner so it doesn't get wasted."
     },
@@ -1126,7 +1100,7 @@
       title: "TimunMas — Game Trailer",
       cover: { type: "image", src: "ve/timunmasgt/timunmasgttitle.png" },
       gallery: [
-        { type: "gdrive", src: "https://drive.google.com/file/d/1BDHhafC-ofEVlcQ6rUoxGW14ynXJb3wI/view" },
+        { type: "youtube", src: "https://www.youtube.com/watch?v=Vfpl4zUtDkA" },
       ],
       desc: "This is a game trailer that I made for TimunMas game. The trailer is made using Adobe Premiere Pro. The trailer is used to promote the game and to attract players to play the game. The trailer is also used to showcase the game to potential investors and publishers."
     },
@@ -1137,7 +1111,7 @@
       title: "Until The End — Game Trailer",
       cover: { type: "image", src: "ve/untiltheendgt/untiltheendgttitle.png" },
       gallery: [
-        { type: "gdrive", src: "https://drive.google.com/file/d/1KjXLHmiBG-Tuf5JtfoOCuESSolcSxN11/view" },
+        { type: "youtube", src: "https://www.youtube.com/watch?v=O5q5vjXQcnw" },
       ],
       desc: "This is a game trailer that I made for Until The End game. The trailer is made using Adobe Premiere Pro. The trailer is used to promote the game and to attract players to play the game. The trailer is also used to showcase the game to potential investors and publishers."
     },
@@ -1148,7 +1122,7 @@
       title: "Silaturahmi Atsiri Permai at Nicole's River Park",
       cover: { type: "image", src: "ve/nicoleriverparkve/nicoleriverparkvethumb.png" },
       gallery: [
-        { type: "gdrive", src: "https://drive.google.com/file/d/1GEl0JezEGnljd-wp2ASayUelP_pI_sjQ/view" },
+        { type: "gdrive", src: "https://drive.google.com/file/d/1MD301GpTVArihE7_pY3gAw5RdO100O5Z/view" },
       ],
       desc: "This is a video I've made for Atsiri Permai's citizen on silaturahmi event at Nicole's River Park."
     }
@@ -1304,6 +1278,18 @@
     if(req) req.call(el);
   }
 
+  /* 
+    ========================================================================
+    [PERBAIKAN DUKUNGAN PEMUTAR VIDEO (YOUTUBE & DIRECT FILE UPLOAD)]:
+    1. type === 'video' : Merender tag <video controls playsinline> bawaan browser.
+                          Sangat cocok untuk file MP4/WebM upload langsung.
+    2. type === 'youtube': Merender Player Embed Iframe resmi YouTube.
+                          Video berputar langsung di dalam modal di HP & Desktop
+                          secara interaktif tanpa overlay bertumpuk dan tanpa
+                          keluar dari situs web.
+    3. type === 'gdrive' : Tetap dipertahankan menggunakan iframe preview.
+    ========================================================================
+  */
   function buildSlide(item, i){
     const type = getMediaType(item);
     const src = getMediaSrc(item, type);
@@ -1311,55 +1297,47 @@
     wrap.className = 'modal-slide';
     wrap.dataset.i = i;
 
-    const isMobile = window.innerWidth <= 600;
-
     if(type === 'video'){
+      // UNTUK FILE VIDEO DIRECT UPLOAD (.mp4, .webm)
       const video = document.createElement('video');
       video.src = src;
       video.controls = true;
       video.playsInline = true;
-      video.muted = true;
+      video.muted = false;
       video.preload = 'metadata';
       wrap.appendChild(video);
+
+      const fsBtn = document.createElement('button');
+      fsBtn.className = 'modal-fullscreen-btn';
+      fsBtn.innerHTML = '⛶';
+      fsBtn.setAttribute('aria-label', 'Fullscreen');
+      fsBtn.addEventListener('click', (e) => { e.stopPropagation(); enterFullscreen(video); });
+      wrap.appendChild(fsBtn);
     } else if(type === 'youtube'){
+      // UNTUK YOUTUBE EMBED DIRECT IN-MODAL PLAYBACK
       const vid = getYoutubeId(typeof item === 'string' ? item : item.src);
-      const thumb = vid ? `https://img.youtube.com/vi/${vid}/maxresdefault.jpg` : '';
-      const watchUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : src;
-      const a = document.createElement('a');
-      a.className = 'yt-thumb';
-      a.href = watchUrl;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.innerHTML = `<img src="${thumb}" alt="YouTube video thumbnail" loading="lazy" decoding="async"><div class="yt-play"></div><div class="yt-label mono">▶ WATCH ON YOUTUBE ↗</div>`;
-      wrap.appendChild(a);
-    } else if(type === 'gdrive' || type === 'iframe'){
-      // Pembedaan berdasarkan resolusi layar
-      if(isMobile) {
-        // Di HP: Tampilkan tombol pemicu langsung ke pemutar full Google Drive
-        const gdriveId = getGDriveId(typeof item === 'string' ? item : item.src);
-        const rawUrl = typeof item === 'string' ? item : item.src;
-        const thumbUrl = gdriveId ? `https://drive.google.com/thumbnail?id=${gdriveId}&sz=w1400` : '';
-        
-        const a = document.createElement('a');
-        a.className = 'yt-thumb';
-        a.href = rawUrl;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.innerHTML = `
-          <img src="${thumbUrl}" alt="Video thumbnail" loading="lazy" decoding="async">
-          <div class="yt-play" style="background:#D8431D;"></div>
-          <div class="yt-label mono">▶ PUTAR VIDEO (GOOGLE DRIVE) ↗</div>
-        `;
-        wrap.appendChild(a);
+      if(vid) {
+        const iframe = document.createElement('iframe');
+        iframe.dataset.src = `https://www.youtube.com/embed/${vid}?rel=0&enablejsapi=1`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
       } else {
-        // Di Tablet & Desktop: Gunakan iframe bawaan
         const iframe = document.createElement('iframe');
         iframe.dataset.src = src;
         iframe.allow = 'autoplay; fullscreen; encrypted-media';
         iframe.allowFullscreen = true;
         wrap.appendChild(iframe);
       }
+    } else if(type === 'gdrive' || type === 'iframe'){
+      // UNTUK GOOGLE DRIVE IFRAME PREVIEW
+      const iframe = document.createElement('iframe');
+      iframe.dataset.src = src;
+      iframe.allow = 'autoplay; fullscreen; encrypted-media';
+      iframe.allowFullscreen = true;
+      wrap.appendChild(iframe);
     } else {
+      // UNTUK GAMBAR
       const img = document.createElement('img');
       img.src = src;
       img.alt = `Project image ${i + 1}`;
